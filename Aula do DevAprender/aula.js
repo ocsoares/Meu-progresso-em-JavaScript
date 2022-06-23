@@ -1,4 +1,5 @@
 // SEMPRE que acabar a Aula no DIA, upar no GitHub até acabar TUDO! (e mudar o nome dos Arquivos e da Pasta)
+// DEPOS que acabar TUDO, Separar alguns tópicos Importantes em Arquivos separados !
 
 // Printando no console Web
 console.log("Apenas testando"); // Também pode ser com Aspas Duplas, mas as Simples são mais utilizadas!
@@ -334,5 +335,214 @@ for(let key of footballNames){
     }
 
     console.log('\n');
+// -----------------------------------------
 
-    // ...
+// Factory Functions = Funções de Fábrica 
+
+    // Usado para Criar uma Função do Mesmo Tipo sempre que Precisar e
+    // evitar repetição !!
+    // declarar o nome de uma Factory Function usando camelCase (ex. umDoisTresQuatro) !!! 
+
+function makeStudent(name, age, id, discipline){
+    const student = {
+    // return {   // Também pode ser feito assim porque já retorna o Objeto sem precisar Retornar na Última Linha da Função
+
+    name: name,
+    age: age,
+    id: id,
+    discipline: discipline
+    
+    // Quando a Variavel no Objeto da Função Recebe o Conteúdo de uma Variável com o MESMO Nome, pode se colocar Apenas uma vez
+    // o nome dessa Variavel (ex. Variável name do Objeto Recebe name, que tem o Mesmo Nome mas é PARÂMETRO da Função !)
+
+    // EXEMPLO:
+
+    // name,
+    // age,
+    // id,
+    // discipline
+
+    }
+
+    return student; // Se fosse feito igual Comentado na Segunda Linha da Função, NÃO precisaria desse return !!
+}
+
+    // Retornando as Informações da Factory Function para uma Váriavel
+const doneStudent = makeStudent('Henrique Silva', 23, 9458, 'Matemática');
+// outra variável.. outra variável... etc...
+
+console.log(doneStudent);
+
+for(let key in doneStudent){ // Printando o Conteúdo da Váriavel
+    console.log(doneStudent[key]);
+}
+
+console.log('\n');
+// -----------------------------------------
+
+// Constructor Functions - Funções de Construtor
+
+    // Ao contrário do Factory Function, o Constructor Function NÃO Retorna nada, o Objeto tem que ser Criado !!
+    // Declarar o nome de uma Constructor Function usando PascalCase (ex. CincoSeisSeteOito) !!!
+
+function MakeOtherStudent(otherName, otherAge, otherId, otherDiscipline) { // também podia ser o Mesmo Nome das Váriaveis 
+    this.name = otherName; // this = Usado para indicar que está USANDO o Objeto Referenciado (nesse caso, está usando o name)
+    this.age = otherAge;
+    this.id = otherId;
+    this.discipline = otherDiscipline;
+
+    // SEM RETORNO !!
+}
+
+    // Criando um Novo Objeto a partir das Informações da Constructor Function
+const otherStudent = new MakeOtherStudent('Gabriel Feitosa', 28, 5481, 'Geografia'); // new = Cria o Objeto de acordo com os Parâmetros
+
+console.log(otherStudent); // Printando o Objeto
+
+console.log('\n');
+
+for(key in otherStudent){
+    console.log(otherStudent[key]);
+}
+
+console.log('\n');
+// -------------------------------------
+
+// Natureza Dinâmica de Objetos
+
+    // Um Objeto pode ser Alterado facilmente em JavaScript, permitindo que
+    // Adicione ou Delete Propriedades de um Objeto !!!
+
+    // Exemplo:
+const food = {
+    name: 'Lasanha',
+    price: 24.90,
+    validity: '22/07/2022'
+}
+
+console.log(food);
+
+    //Adicionando e Deletando Objetos
+food.anyName = 'arroz'; // ADICIONADO
+food.newFunction = function(){
+    console.log('teste');
+}
+console.log(food);
+
+delete food.anyName; // DELETADO
+delete food.newFunction;
+console.log(food);
+
+console.log('\n');
+// ---------------------------------
+
+// Clonando Objetos
+
+const objetoOriginal = {
+    esporte: 'Futebol',
+    objetivo: 'Gol',
+    tempo: 90
+}
+console.log(objetoOriginal);
+
+const objetoClonado = Object.assign({}, objetoOriginal); // Novo Objeto = Objetct.assign({}, Objeto a ser Clonado)
+console.log(objetoClonado);
+console.log('\n');
+
+    // Clonando MAS Adicionando Algo no Objeto
+const objetoClonadoAdicionado = Object.assign({
+    player: 'Messi',
+    player2: 'Cristiano Ronaldo'
+}, objetoOriginal);
+
+console.log(objetoClonadoAdicionado);
+
+console.log('\n');
+
+    // Outro Método (Spread = {...Objeto a ser clonado}
+const spreadClone = {...objetoOriginal};
+console.log(spreadClone);
+
+console.log('\n');
+// -------------------------------
+
+// Função Math
+
+    // Gerando números Aleatórios com Math.random
+
+    // Apenas Math.random() gera números Aleatórios entre 0 e 1 !!
+console.log(Math.random(10));
+
+console.log('\n');
+    // >> Tem como fazer também de um número X até Y, mas ainda não sei !! <<
+
+    // Maior Valor entre números
+const maxNumber = Math.max(12,31,24,9,10,12);
+console.log(maxNumber);
+
+    // Menor Valor entre números
+const minNumber = Math.min(30,23,40,12,80,102);
+console.log(minNumber);
+
+console.log('\n');
+
+    // TEM MUITO MAIS coisas importantes dessa Função !!
+// --------------------------------------
+
+// Strings
+
+    // Tipos de String
+
+    // Tipo Primitivo   - Mais utilizado
+const primitiveString = '"Tipo primitivo !"'; // Óbvio que as Aspas Duplas DENTRO da String já com ' ' Conta como caracter
+console.log(primitiveString);
+console.log(typeof(primitiveString));
+console.log('\n');                              // OS DOIS Tipos de Strings podem ser usados como Objeto ! (objeto.AlgumaFunção)
+
+    // Tipo Objeto
+const objectString = new String ('Tipo objeto !');
+console.log(objectString);
+console.log(typeof(objectString));
+
+console.log('\n');
+
+    // Verificando a String em Determinada Posição
+console.log('O sexto caracter na string:',primitiveString, 'é:', primitiveString[6]);
+
+    // Algumas Funções Mais utilizadas em String
+    // A MAIORIA Também Pode ser usada em Números, Arrays, etc... <<
+
+    // .lenght = Verifica o tamanho   
+console.log('O tamanho da string:', primitiveString, 'é:', primitiveString.length);
+
+    // .includes = Verifica se Determinado Valor existe na Variável - Variável.includes(algo para Verificar);
+    // Retorna true ou false !!
+console.log(primitiveString.includes('primitivo')); // No caso de Strings, compara Caracter com Caracter (pq se passar primi dá TRUE !!)
+
+    // .startsWith = Verifica se Determinado Valor COMEÇA com o Valor Especificado ! - Variável.startsWith(algo para Verificar);
+    // Retorna true ou false !!
+console.log(primitiveString.startsWith('arroz'));
+
+    // .endsWith = Verifica se Determinado Valor TERMINA com o Valor Especificado ! - Variável.endsWith(algo para Verificar);
+    // Retorna true ou false !!
+console.log(primitiveString.endsWith('primitivo !"'));
+
+    // .indexOf = Verifica em qual Posição (index) Determinado Valor COMEÇA no Valor Especificado - Variável.endsWith(algo para Verificar);
+    // Em caso de ERRO, retorna -1 (Pelo o que eu vi)
+console.log(primitiveString.indexOf('Tipo')); // Nesse caso, a palavra Tipo nessa String começa A PARTIR do 1 Caracter (0, 1, 2...) !!!
+
+    // .replace = Troca um Determinado Valor por Outro - Variável.replace(Valor EXISTENTE, Novo Valor);
+    // Pelo o que eu vi, se o Valor for Repetido MAIS de uma Vez, Troca apenas a Primeira Aparição !
+    // Pelo o que eu vi também, quando o Valor informado NÃO Existe, ele retorna o Valor original.
+console.log(primitiveString.replace('Tipo', 'teste boy'));
+
+    // .trim = Retira os espaços excedentes (no COMEÇO ou no FINAL) em uma String - Variável.trim();
+console.log(primitiveString.trim()); 
+
+    // .split = Separa Determinado Valor quando encontra o Valor Informado - Váriavel.split(Valor Informado);
+console.log(primitiveString.split('i')); // Nesse caso, Separa Sempre que encontrar o Caracter i
+
+console.log('\n');
+// -----------------------------------------
+
+// Template Literal
