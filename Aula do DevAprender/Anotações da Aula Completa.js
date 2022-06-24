@@ -49,7 +49,7 @@ const otherAge = 26;
 console.log('Outra idade:', otherAge);
 console.log('\n');
 
-    // Exemplo de como NÃO é possível Alterar a Variável (no caso abaixo, da erro) !
+    // Exemplo de como NÃO é possível Alterar a Variável const (no caso abaixo, da erro) !
 // otherAge = 30;
 // console.log('Alterando outra idade:', otherAge);
 // -----------------------------------
@@ -153,7 +153,7 @@ let result = doMultiplication(2,5); // Variavel Recebeu o Retorno da Função (n
 console.log('O valor da multiplicação é:', result);
 
 console.log('\n');
-// ---------------------------
+// -----------------------------------------
 
 // Diferença entre == e === 
 
@@ -603,7 +603,7 @@ console.log(terceiraData);
 
 console.log('\n');
 
-    // Funcionalides (Métodos) para Date !!
+    // Funcionalidades (Métodos) para Date !!
 
     //  Altera o ANO de uma Data (Mesmo sendo const !!!) - Variável da Data.setFullYear(ano);
 terceiraData.setFullYear(2050);
