@@ -1,4 +1,4 @@
-    // Ao contrário do Factory Function, o Constructor Function NÃO Retorna nada, o Objeto tem que ser Criado !!
+    // Ao contrário do Factory Function, o Constructor Function NÃO Retorna nada, o Objeto tem que ser Criado !!!
     // Declarar o nome de uma Constructor Function usando PascalCase (ex. CincoSeisSeteOito) !!!
 
     function MakeOtherStudent(otherName, otherAge, otherId, otherDiscipline) { // também podia ser o Mesmo Nome das Váriaveis (ex. name)
