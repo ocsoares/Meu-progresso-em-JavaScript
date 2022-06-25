@@ -1,3 +1,5 @@
+// A Função Retorna um valor Diferente dependendo da Condição da Variável
+
 function FizzBuzz(number){
     if(typeof(number) !== 'number'){
         return 'Não é um número!';
