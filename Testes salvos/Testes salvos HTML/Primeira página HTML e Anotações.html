@@ -1,0 +1,75 @@
+<!DOCTYPE html> <!-- Indica para o Navegador que é um Código HTML (NÃO é um Elemento HTML !!)-->
+<html lang="en"> <!-- No HTML tudo é feito DENTRO dessa Tag chamada HTML-->
+<head> <!-- A Tag Head (NÃO Aparece na Página !!!!!) é responsável pelas Metas Informações (ex. Título da página, CSS, Enconding dos caracteres, etc...) --> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primeiro teste HTML</title> <!-- Título da Página -->
+</head>
+<body> <!-- A Tag Body é aonde fica todo o Conteúdo da Página, o corpo. -->
+    <header>
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" alt="Foto Android" height="50">
+        <h1> Página Inicial </h1>
+    </header>
+    <section>
+        <header>
+            <h2> Informações sobre a página </h2>
+        </header>
+        <section>
+            <h3> Um breve relato sobre meu primeiro site </h3>
+            <article>
+                <p>
+                Esse é um pequeno texto sobre como foi realizado esse site. Clique aqui para saber
+                 <a href="https://github.com/ocsoares/Meu-progresso-em-JavaScript" target="_blank">mais</a>
+                 </p>
+            </article>
+        </section>
+    </section>
+    <foother>
+        <ul> <!-- Nesse caso como é <ul> vai aparecer Bolinhas na Lista (pq não tem CSS), se fosse Ordenada ( <ol> ), iria aparecer Números para Ordenar-->
+            <li>
+                <a href="https://github.com/ocsoares" target="_blank">GitHub</a>
+            </li>
+            <li>
+                <a href="https://devicon.dev/" target="_blank">Icon site</a>
+            </li>
+        </ul>
+    </foother>
+</body>
+</html>
+
+<section> </section> <!-- Tag section = Responsável por uma Sessão Genérica de conteúdos (ex. Artigos) -->
+<header>  </header> <!-- Tag header = Responsável pelo Cabeçalho da Página ou de PARTE da Página (ex. algum conteúdo da Tag section)-->
+<article>  </article> <!-- Conteúdo Relevante dentro de um site (ex. Artigo de blog)-->
+<aside>  </aside> <!-- Tag aside = responsável por Mostrar um Conteúdo Relacionado ao Conteúdo da Página (ex. Bibliografia do Autor, links, etc...) -->
+<foother>  </foother> <!-- Rodapé da Página (ou de PARTE da Página !! (ex. Rodapé da Tag section))-->
+<p>  </p> <!-- Tag p = Parágrafo na página, Também Pode ser usado com Imagens, vídeos, etc... -->
+
+<!-- Tag h1 até h6 é responsável pelo Tamanho da Fonte mostrada !! -->
+<h1>  </h1> <!-- SÓ É Permitido (Recomendado) usar APENAS uma Tag h1 no Site !!! << -->
+<h2>  </h2>
+...
+<h6> </h6>
+<!-- ------------------------------------------------------------- -->
+
+<!--------------------- IMAGEM ----------------------------------- -->
+<a>  </a> <!-- Tag a (Âncora) = Usado para Interligar conteúdos e nela tem Vários Atributos, como href (links) e target (Como esse Link vai ser Aberto)-->
+<a href="mailto:casoares016@gmail.com">Email</a> <!-- Cada tipo de Link tem um Prefixo !! (nesse caso, mailto)-->
+                                                 <!-- Fechar o Primeiro a Somente DEPOIS do Atributo <a href="..."> -->
+                                                 <!-- "Prefixo + Link">Texto a se tornar Clicável !! -->
+
+<a target="_blank">Link</a> <!-- o Valor _blank diz para o Link ser aberto em uma NOVA Aba !!-->
+<!---------------------------------------------------------------- -->
+
+<!---------------------------------------------------------------- -->
+<img src="link ou caminho da foto baixada no pc"> <!-- Tag img = Permite adicionar imagens -->
+                <!-- o src="..."> (OBRIGATÓRIO !!) é utilizado para indicar o Caminho de Hospedagem da Imagem a ser colocada -->
+
+<img alt="texto"> <!-- é uma Descrição da Imagem quando ela NÃO é Carregada (Bom para Acessibilidade)-->
+<!---------------------------------------------------------------- -->
+
+<!---------------- ---- LISTAS ----------------------------------- -->
+<ul>  </ul> <!-- Tag ul = Representa uma Lista em que a Ordem NÃO importa !! -->
+<ol>  </ol> <!-- Tag ol = Representa uma Lista em que a Ordem IMPORTA (é representado por Números, Letras ou Algorítimos Romanos) !!-->
+<li>  </li> <!-- Tag li = Representa um Item em Determinada Lista -->
+<!---------------------------------------------------------------- -->

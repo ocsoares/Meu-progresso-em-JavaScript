@@ -1,0 +1,179 @@
+    /* Definindo uma Regra em CSS */
+    /* Passando o ID com #,  e as Classes com .nome */
+    #primary_title, .second_title, .section_title{ 
+        color:brown;
+    }
+
+    body{ /* Altera TUDO que está dentro dessa TAG !! */
+        background-color: darkslateblue;
+        width: 1000px; /* Alterando a Largura do Body // TAMBÉM Pode ser usado em Imagens !! */
+        margin: auto;
+    }
+
+        /* Nesse caso, está alterando a COR de um LINK de uma LISTA !!! */
+    .first_li a{ /* Altera uma Tag dentro de OUTRA Tag !! */
+        color:green;
+    }
+    
+    #primary_title{ /* Alterando uma Classe em específico */
+        font-family: sans-serif;
+        font-size: 60px; /* Com ; no Final !!!*/
+    }
+    
+    .second_title{
+        font-size: 30px;
+        font-style: italic;
+    }
+    
+    .text{
+        font-family: Verdana;
+        font-size: 15px;
+        font-style: italic;
+        background-color: darkred;
+        padding: 15px;
+        border: 5px solid #000;
+        border-radius: 32px;
+        margin: 12px; /* Margem do Elemento */
+    }
+
+    .upper{
+        text-transform: uppercase;
+    }
+
+    .lower{
+        text-transform: lowercase;
+    }
+
+    .negrito{
+        font-style: italic;
+        font-weight: bolder;
+    }
+
+    .teste{
+        text-decoration: underline;
+        color:saddlebrown;
+    }
+
+    ul{
+        list-style-type: "\1F44D";
+        padding: 28px;
+    }
+
+    .third_li{
+        color:yellow;
+        list-style-type: upper-roman;
+    }
+
+    .signature{
+        text-align: right;
+        font-size: medium;
+        font-style: italic;
+        font-family: Verdana;
+        color:dimgrey;
+    }
+    
+
+    /*
+    
+    // ----------------------------------------
+    padding = Define uma distância entre o Conteúdo de seus Elementos e suas Bordas
+
+    2 Dimensões = Usando o exemplo 10px e 5px, significa que 10px é EM CIMA e EMBAIXO, 5px é DIREITA e ESQUERDA
+    4 Dimensões = Um valor para Cada Lado, ex. 10px 5px 7px 0 (em caso de Dimensão ZERO, não precisa por Unidade (ex. px)
+                // Nas 4 Dimensões seriam = 10px EM CIMA, 5px DIREITA, 7px EMBAIXO, 0 ESQUERDA !!!
+    
+    Ou também, em alguns casos, como por exemplo Alterar APENAS um Lado e manter o Resto IGUAL, pode-se usar:
+    padding-top: ...px;
+    padding-right: ...px;
+    padding-bottom: ...px;
+    padding-left: ...px;
+    // ----------------------------------------
+                        
+    // ----------------------------------------
+    Background = Plano de Fundo
+
+    background-color: cor; - Escrito (ex. green) ou em Hexadecimal (ex. #008800)
+    background = Um atalho para o background-color == Também pode ser Escrito ou Hexadecimal
+    background-image: url("link...");
+    background-position: posição     - Exemplo, top
+    // ----------------------------------------
+
+    // ----------------------------------------
+    Border = Borda de um Elemento
+    Qual borda é: Dimensão, Tipo da Borda, Cor da Borda ( ex. border: 10px solid blue; )
+
+    border: TODAS as Bordas do Elemento
+    border-top: Borda de CIMA
+    Na mesma lógica, também tem border-right, bottom e left.
+
+    Exemplos de Tipo de Borda: solid = sólida,  dotted = pontilhada,  tracejada = dashed
+
+    Para cada aspecto da Borda:
+    border-widht: ...px; = Largura da Borda
+    border-color: cor; = Cor da Borda
+    border-style: tipo; = Tipo da Borda
+    Isso Também se aplica para o Lado da Borda, ex: border-top-width: 10px;, etc...
+
+     --------------
+    Border-radius = Arredonta um CANTOS de um Elemento
+    O mais Comum de ser Usado como Dimensão são os pixels (px) e a Porcentagem (%)
+    DICA: Para Transformar um Elemento Quadrado em um CÍRCULO, basta colocar border-radius: 50%;
+
+    Na mesma lógica, 1 dimensão = Altera TODO o Elemento,  2 = EM CIMA e EMBAIXO, 4 = Altera Cada Lado do Elemento
+    Ex:
+    border-radius: 10px;
+    border-radius: 50%;
+    border-radius: 5px 10px
+    border-radius: 10% 20% 15% 22%
+    // ----------------------------------------
+
+    // ----------------------------------------
+        FONTES
+
+    font-family: fonte; = Altera a Fonte do Texto
+        OBS: no font-family pode-se usar DUAS Fontes, a Primeira como a Principal, e a Segunda como BACKUP, caso a Primeira não Carregue !!
+
+    font-size: ...px; = Altera o TAMANHO do Texto
+    font-style: estilo; = Altera o Estilo (Aparência) do Texto
+    font-weight: peso; = Especifica o Peso (Intensidade) da Fonte, por exemplo, negrito
+        OBS: no font-weight, Algumas Fontes só são utilizadas no Normal (Padrão dela) e no Negrito !!
+
+     ------------------
+    text-transformar: tipo; = Transforma o Texto em Maiúsculo ou Minúsculo
+
+    text-transform: uppercase; = Transforma TODO o Texto em MAIÚSCULO 
+    text-transform: lowercase; = Transforma TODO o Texto em MINÚSCULO 
+    text-transform: capitalize; = Transforma TODAS as Letras INICIAIS de CADA Palavra em MAIÚSCULO
+    
+     ------------------
+    text-decoration: tipo; = Usada para Destacar algum Texto
+
+    text-decoration: underline; = Coloca uma Linha EMBAIXO do Texto
+    text-decoration: overline; = Coloca uma Linha A CIMA do Texto
+    text-decoration: line-through; = Coloca uma Linha CORTANDO TODO o Texto no MEIO
+    // ----------------------------------------
+
+    // ----------------------------------------
+        LISTAS
+    list-style-type: estilo; = Altera o Marcador de Ordenação (ou Não) da Lista  (estilo none = REMOVE o Marcador !!!)
+    list-style-image: url("link..."); = Adiciona uma Imagem como Marcador da Lista
+
+    Pode ser aplicado também o padding: ...px; para Alterar o Distanciamento da Lista !!
+
+    Alguns exemplos de estilos: square, upper-roman, "\1F44D" (código do Emoji Joinha)
+    // ----------------------------------------
+
+    // ----------------------------------------
+        Dimensão e Alinhamento
+    Width = Largura ( ...px ou ...% )
+    Height = Altura ( ...px ou ...% )
+
+    Max-width = O Elemento se ajusta Dependendo da Largura MÁXIMA
+    Max-height = O Elemento se ajusta Dependendo da Altura MÁXIMA
+
+    Margin = Coloca Espaçamento entre Elementos (Tem o valor auto = Alinha AUTOMATICAMENTE no Centro !)
+
+    Text align = Alinha o Texto dependendo da Posição (left, right, center...)
+    // ----------------------------------------
+
+    */
