@@ -1,0 +1,110 @@
+body {
+    background-color: darkslateblue;
+}
+
+.flex-container {
+    margin: 0;
+    padding: 0;
+    display: flex; /* É essa propriedade que transforma Todos os que a Recebem em Flex Itens (Vão ser Alinhados Independentes um do Outro, mas SEMPRE Alinhados em uma espécie de Container !!!! */
+    list-style: none;
+    border: 2px solid black; /* Para visualizar a Borda dos Itens */
+}
+
+.custom {
+    background-color: red;
+    margin: 7px;
+}
+
+.li_custom {
+    background-color: greenyellow;
+    color: red;
+    height: 50px;
+    width: 160px;
+    line-height: 60px;
+    font-size: 40px;
+    text-align: center;
+    margin: 4px;
+    /* Nesse caso, separa um Elemento do outro (li) */
+}
+
+.li_custom2{
+    background-color: purple;
+    color: green;
+    margin: 4px;
+    height: 50px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.li_custom3{
+    background-color: coral;
+    color:cornflowerblue;
+    font-size: 40px;
+    margin: 4px;
+
+}
+
+.padding_top{
+    padding-top: 10px;
+}
+
+.row {
+    flex-direction: row;
+    /* PADRÃO (como já é Padrão, NADA vai mudar, óbvio) */
+}
+
+.row-reverse{
+    flex-direction: row-reverse;
+}
+
+.column{
+    flex-direction: column;
+    float: left; /* TIROU o resto da Caixa que ficava até o Final Direito da Página >> */
+}
+
+.column-reverse{
+    flex-direction: column-reverse;
+    float: right;
+}
+
+.column-reverse li{ /* Alterando APENAS o background  dos li dessa Classe (no caso, column-reverse) */
+    background-color: azure;
+}
+
+/*
+
+    Flex-wrap
+É a propriedade que define se os Itens devem ou não Quebrar Linha, por Padrão eles NÃO Quebram, isso faz com que, em alguns casos, sejam
+Compactados até o máximo que podem e, Depois disso, os Próximos Itens começam a Vazar do Container !!
+
+nowrap = Padrão, não permite a Quebra de Linha.
+wrap = Quando o Container atinge o seu Limite Máximo, o Próximo Item Quebra a Linha para BAIXO !!
+wrap-reverse = O Contrário de wrap, Quebra a Linha para CIMA !!!
+// ----------------------------------------
+
+// ----------------------------------------
+    Justify Content
+Alinha os itens dentro do Container de acordo com a Direção estabelecida, e Também Trata do Espaçamento entre eles !
+    OBS: Se o item estiver usando 100% do Container, isso NÃO se aplica !!
+
+flex-start = Alinha no Ínicio do container (PADRÃO)
+flex-end = Alinha no Final do container
+center = Alinha no Centro do Container
+space-between = Cria um Espaçamento IGUAL entre os Elementos
+space-around = Separa Cada Item IGUALMENTE para o Começo e para o Final, e no Meio fica um Espaçamento Maior !!
+// ----------------------------------------
+
+// ----------------------------------------
+    Align-items
+Trata o alinhamento dos Itens de acordo com o Prenchimento do Container
+    OBS: O Alinhamento é diferente para Colunas ou Linhas !!
+
+center = Alinha os Itens no Centro
+stretch = (PADRÃO) Faz com que os itens Cresçam Igualmente
+flex-start = Alinha os Itens no Ínicio
+flex-end= Alinha os Itens no Final
+baseline = Alinha os Itens de acordo com a Linha Base da Tipografia dos Itens
+
+
+*/

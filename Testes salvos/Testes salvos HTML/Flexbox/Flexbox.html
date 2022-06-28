@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox - wrap</title>
+    <link rel="stylesheet" href="Flexbox.css">
+</head>
+<body class="custom_h1 custom_h2">
+    <h1>Arquivo sobre wrap do FlexBox</h1>
+    
+    <h2>No Wrap</h2>
+        <!-- nowrap = Padrão, NÃO quebra linha-->
+    <section class="flex-container nowrap">
+        <p class="custom_p">teste um</p>
+        <p class="custom_p">teste dois</p>
+        <p class="custom_p">teste tres</p>
+        <p class="custom_p">teste quatro</p>
+        <p class="custom_p">teste cinco</p> <!-- Esse Item passa o Limite Máximo do Container ! -->
+    </section>
+
+    <p></p>
+    <h2>Wrap</h2>
+    
+        <!-- wrap = Quando o Container atinge o seu Limite Máximo, o Próximo Item Quebra a Linha para BAIXO !! -->
+    <section class="flex-container wrap"> 
+        <p class="custom_p">teste um</p>
+        <p class="custom_p">teste dois</p>
+        <p class="custom_p">teste tres</p>
+        <p class="custom_p">teste quatro</p>
+        <p class="custom_p">teste cinco</p>
+        <p class="custom_p">WRAP!</p>
+    </section>
+
+    <p></p>
+    <h2>Wrap-reverse</h2>
+
+        <!-- wrap-reverse = O Contrário de wrap, o Item Quebra a Linha para CIMA !!!-->
+    <section class="flex-container wrap-reverse"> 
+        <p class="custom_p">teste um</p>
+        <p class="custom_p">teste dois</p>
+        <p class="custom_p">teste tres</p>
+        <p class="custom_p">teste quatro</p>
+        <p class="custom_p">teste cinco</p>
+        <p class="custom_p">WRAP!</p>
+    </section>
+
+    <p></p>
+    <h2>Justify content</h2>
+
+        <!-- Com justify content = Coloquei apenas 1 Nesse exemplo, mas Comentei os outros Tipos de Alinhamentos do Justify no .css !!! -->
+    <section class="flex-container wrap-reverse justify-content"> 
+        <p class="custom_p">teste um</p>
+        <p class="custom_p">teste dois</p>
+        <p class="custom_p">teste tres</p>
+        <p class="custom_p">teste quatro</p>
+        <p class="custom_p">teste cinco</p>
+        <p class="custom_p">WRAP!</p>
+    </section>
+
+    <p></p>
+    <h2> Align-items: center</h2>
+
+        <!--  -->
+    <section class="flex-container align_center wrap"> 
+        <p class="custom_p">teste um</p>
+        <p class="custom_p">teste dois</p>
+        <p class="custom_p">teste tres</p>
+        <p class="custom_p">teste quatro</p>
+        <p class="custom_p">teste cinco</p>
+        <p class="custom_p">WRAP!</p>
+    </section>
+</body>
+</html>

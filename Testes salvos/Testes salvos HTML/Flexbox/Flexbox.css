@@ -1,0 +1,54 @@
+body{
+    background-color: darkslateblue;
+}
+
+.flex-container{
+    display: flex; /* o <p> não tá quebrando linha por causa disso << */
+    border: 5px solid black;
+    max-width: 325px; /* Demarcando o Limite do Container para mostrar o que acontece quando os Itens passam do Limite Máximo */
+}
+
+.nowrap{ /* Padrão, NÃO pula linha */
+    flex-wrap: nowrap;
+}
+
+.wrap{
+    flex-wrap: wrap;
+}
+
+.wrap-reverse{
+    flex-wrap: wrap-reverse;
+}
+
+.justify-content{
+    /* justify-content: flex-start; - No COMEÇO (Padrão !!)*/
+    /* justify-content: center; (No MEIO) */
+    justify-content: end; /* No FINAL */
+    /* justify-content: space-between; Separa Cada Item IGUALMENTE para o Começo e para o Final, e no Meio fica um Espaçamento Maior !! */ 
+}
+
+.custom_h1 h1{
+    font-family: Verdana;
+    font-size: 26px;
+    color: darkgrey;
+}
+
+.custom_h2 h2{
+    color:darkolivegreen;
+    font-size: 28px;
+}
+
+.custom_p{
+    color:brown;
+    font-size: 25px;
+    font-style: italic;
+    margin: 10px;
+}
+
+.padding_top{
+    padding-top: 30px;
+}
+
+.align_center{
+    align-items: center;
+}
