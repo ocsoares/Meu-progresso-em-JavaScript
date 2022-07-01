@@ -16,5 +16,16 @@ console.log(maxNumber);
 const minNumber = Math.min(30, 23, 40, 12, 80, 102);
 console.log(minNumber);
 
+console.log('\n');
+
+    // Math.ceil = Arredonda um Número para CIMA
+    // Math.floor = Arredonda um Número para BAIXO
+const a = 10;
+const b = 3;
+
+console.log('Divisão NORMAL:', a / b);
+console.log('Divisão Arredondando para CIMA:', Math.ceil(a / b));
+console.log('Divisão Arredondando para BAIXO:', Math.floor(a / b));
+
     // TEM MUITO MAIS coisas importantes dessa Função !!
     // --------------------------------------

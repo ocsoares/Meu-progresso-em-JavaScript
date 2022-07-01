@@ -1,7 +1,7 @@
 // Pegando Dados de Entrada do Usuário !!!!
 
     // Modo Correto no Nodejs !! <<<
-    // Instalar o Módulo Readline-sync no Projeto (se Não tiver Instalado)
+    // Instalar o Módulo Readline-sync no Projeto (se Não tiver Instalado) com o Comando no Terminal do VSCode = npm install readline-sync (É um Módulo do Nodejs)
     // Habilitar esse Módulo - const readlineSync = require('readline-sync);    // A Variável const Poderia ser Outro Nome !!
     // Pedir o Input e Armazenar em uma Variável -  const retornoInput = readlineSync.question('Pedir algo como input');  (Exemplo !!)
     // node + Nome do Projeto normalmente

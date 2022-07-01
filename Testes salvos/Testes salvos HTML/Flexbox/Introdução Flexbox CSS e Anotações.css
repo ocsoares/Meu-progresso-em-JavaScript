@@ -1,4 +1,4 @@
-body {
+sbody {
     background-color: darkslateblue;
 }
 
@@ -74,6 +74,21 @@ body {
 
 /*
 
+// -----------------------------------------------------------------------
+            Flexbox
+O Flex só é aplicado nas Tags "FILHOS", ou seja, as Tags que  estão logo abaixo da Tag do Flex, por consequência, as Tags DENTRO das Tags
+"FILHOS" NÃO são afetadas !!
+    Ex:
+    <section class="flex-container">
+        <p>testando</p>   = FUNCIONA !!! <<
+
+        <section class="custom_color">
+        <p>teste</p> = NÃO FUNCIONA !!!! Tag dentro de Outra Tag <<
+        </section>
+
+    </section>
+// -----------------------------------------------------------------------
+
     Flex-wrap
 É a propriedade que define se os Itens devem ou não Quebrar Linha, por Padrão eles NÃO Quebram, isso faz com que, em alguns casos, sejam
 Compactados até o máximo que podem e, Depois disso, os Próximos Itens começam a Vazar do Container !!
@@ -101,10 +116,68 @@ Trata o alinhamento dos Itens de acordo com o Prenchimento do Container
     OBS: O Alinhamento é diferente para Colunas ou Linhas !!
 
 center = Alinha os Itens no Centro
-stretch = (PADRÃO) Faz com que os itens Cresçam Igualmente
-flex-start = Alinha os Itens no Ínicio
-flex-end= Alinha os Itens no Final
+stretch = (PADRÃO) Faz com que os itens Cresçam de acordo com o MAIOR Elemento do Container
+flex-start = Alinha os Itens no Ínicio de acordo com o seu Tamanho
+flex-end= Alinha os Itens no Final de acordo com o seu Tamanho
 baseline = Alinha os Itens de acordo com a Linha Base da Tipografia dos Itens
+// ----------------------------------------
 
+// ----------------------------------------
+    Align content
+Trata o Alinhamento das Linhas do Container em relação ao eixo vertical !
+    OBS: Para funcionar, o container PRECISA usar Quebra de Linha (wrap) e a Altura precisa ser MAIOR que a Soma
+    das Linhas dos Itens !!
 
+center = Alinhamento dos Itens ao Centro
+stretch = (PADRÃO) Faz com que os itens Cresçam de acordo com o MAIOR Elemento do Container
+flex-start = Alinha os Itens no Ínicio de acordo com o seu Tamanho
+flex-end= Alinha os Itens no Final de acordo com o seu Tamanho
+space-between = Cria um Espaçamento IGUAL entre os Elementos
+space-around = Separa Cada Item IGUALMENTE para o Começo e para o Final, e no Meio fica um Espaçamento Maior !!
+// ----------------------------------------
+
+// ----------------------------------------
+    Flex grow
+Define o TAMANHO dos Itens, respeito o seu Conteúdo Interno
+    OBS: Usa NÚMEROS no Comando e NÃO funciona caso tenha Adicionado justify-content ao flex container,
+// ----------------------------------------
+
+// ----------------------------------------
+    Flex basis
+Estabele um Padrão de Crescimento com referência do Flex grow
+    OBS: Usa NÚMEROS no Comando
+// ----------------------------------------
+
+// ----------------------------------------
+    Flex-shrink
+Estabelece a capacidade de Redução ou Compressão do Tamanho de um Item
+    OBS: Usa NÚMEROS no Comando
+// ----------------------------------------
+
+// ----------------------------------------
+    Flex
+É um Atalho para usar as propriedades flex-grow, flex-shrink e flex-basis
+    EX:
+flex: 1;  == grow = 1, shrink = 1, basis = 0 (Ocupa TODO o Espaço do Container proporcionalmente)
+flex: 2;  == grow = 2, shrink = 2, basis = 0
+// ----------------------------------------
+
+// ----------------------------------------
+    Order
+Ordena os Itens na forma que desejar, pode ser usado para Trocar itens de Posição
+    OBS: Usa NÚMEROS no Comando
+// ----------------------------------------
+
+// ----------------------------------------
+    Align-self
+Estabelece o Alinhamento de um Item de forma INDIVIDUAL
+    OBS: Pela lógica, NÃO pode ter um Align items definido no Container, porque ele JÁ Define um Espaço para TODOS !!
+
+auto = (PADRÃO) Respeita o Alinhamento definido no Container (ex. align-items: center;)
+flex-start = Alinha no Ínicio do Container
+flex-end = Alinha no Final do Container
+center = Alinha no eixo Central do Container
+stretch = Ocupa todo o Espaço relativo IGUALMENTE
+baseline = Alinha os Itens de acordo com a Linha Base da Tipografia dos Itens
+// ----------------------------------------
 */

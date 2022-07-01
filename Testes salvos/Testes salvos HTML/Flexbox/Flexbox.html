@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexbox - wrap</title>
+    <title>Flexbox</title>
     <link rel="stylesheet" href="Flexbox.css">
 </head>
 <body class="custom_h1 custom_h2">
-    <h1>Arquivo sobre wrap do FlexBox</h1>
+    <h1>Arquivo sobre Flexbox e alguns Exemplos práticos </h1>
     
     <h2>No Wrap</h2>
         <!-- nowrap = Padrão, NÃO quebra linha-->
@@ -20,7 +20,7 @@
         <p class="custom_p">teste cinco</p> <!-- Esse Item passa o Limite Máximo do Container ! -->
     </section>
 
-    <p></p>
+    <!-- QUEBRA LINHA EM HTML = <br> -->
     <h2>Wrap</h2>
     
         <!-- wrap = Quando o Container atinge o seu Limite Máximo, o Próximo Item Quebra a Linha para BAIXO !! -->
@@ -33,7 +33,6 @@
         <p class="custom_p">WRAP!</p>
     </section>
 
-    <p></p>
     <h2>Wrap-reverse</h2>
 
         <!-- wrap-reverse = O Contrário de wrap, o Item Quebra a Linha para CIMA !!!-->
@@ -46,7 +45,6 @@
         <p class="custom_p">WRAP!</p>
     </section>
 
-    <p></p>
     <h2>Justify content</h2>
 
         <!-- Com justify content = Coloquei apenas 1 Nesse exemplo, mas Comentei os outros Tipos de Alinhamentos do Justify no .css !!! -->
@@ -59,17 +57,69 @@
         <p class="custom_p">WRAP!</p>
     </section>
 
-    <p></p>
     <h2> Align-items: center</h2>
 
         <!--  -->
-    <section class="flex-container align_center wrap"> 
+    <section class="flex-container align_items"> 
         <p class="custom_p">teste um</p>
-        <p class="custom_p">teste dois</p>
+        <p class="custom_p">teste doisssss</p>
         <p class="custom_p">teste tres</p>
-        <p class="custom_p">teste quatro</p>
-        <p class="custom_p">teste cinco</p>
-        <p class="custom_p">WRAP!</p>
+    </section>
+
+    <h2> Align-content: stretch</h2>
+
+    <section class="align_container"> 
+        <p class="custom_align">teste ddssssssssssssssssssssssssss</p>
+        <p class="custom_align">teste doisssss</p>
+        <p class="custom_align">teste tres</p>
+    </section>
+
+    <h2> Align-content: center</h2>
+
+    <section class="align_container align_center"> 
+        <p class="custom_align">teste ddssssssssssssssssssssssssss</p>
+        <p class="custom_align">teste doisssss</p>
+        <p class="custom_align">teste tres</p>
+    </section>
+
+    <h2> Align-content: flex-start</h2>
+
+    <section class="align_container align_flex-start"> 
+        <p class="custom_align">teste ddssssssssssssssssssssssssss</p>
+        <p class="custom_align">teste doisssss</p>
+        <p class="custom_align">teste tres</p>
+    </section>
+
+    <h2> Align-content: flex-end</h2>
+
+    <section class="align_container align_flex-end"> 
+        <p class="custom_align">teste ddssssssssssssssssssssssssss</p>
+        <p class="custom_align">teste doisssss</p>
+        <p class="custom_align">teste tres</p>
+    </section>
+
+    <h2> Align-content: space-around</h2>
+
+    <section class="align_container align_space-around"> 
+        <p class="custom_align">teste ddssssssssssssssssssssssssss</p>
+        <p class="custom_align">teste doisssss</p>
+        <p class="custom_align">teste tres</p>
+    </section>
+
+    <h2> Align-content: space-between</h2>
+
+    <section class="align_container align_space-between"> 
+        <p class="custom_align flex-grow">teste ddssssssssssssssssssssssssss</p>
+        <p class="custom_align">teste doisssss</p>
+        <p class="custom_align">teste tres</p>
+    </section>
+
+    <h2> Flex grow</h2>
+
+    <section class="align_container"> 
+        <p class="custom_align flex-grow">A</p>
+        <p class="custom_align flex-grow2">B</p>
+        <p class="custom_align">C</p>
     </section>
 </body>
 </html>
