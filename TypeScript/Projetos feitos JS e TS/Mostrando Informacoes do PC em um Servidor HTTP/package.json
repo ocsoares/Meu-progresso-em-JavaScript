@@ -1,0 +1,15 @@
+{
+  "name": "mostrando-informacoes-do-pc-em-um-servidor-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon ./httpserver.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "2.0.19"
+  }
+}
