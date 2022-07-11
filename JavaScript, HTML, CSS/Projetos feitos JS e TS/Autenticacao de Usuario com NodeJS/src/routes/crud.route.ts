@@ -1,13 +1,24 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
+import userRepository from "../db-repository/user.repository";
 
 const crudRoute = Router();
 
-crudRoute.get('/crud/:id', (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+    // Rota para o Banco de Dados (Assíncrono) !!
+crudRoute.get('/db', async (req: Request, res: Response, next: NextFunction) => {
+    const users = await userRepository.findUsers();
 
+    res.status(200).send(users);
+});
+
+crudRoute.get('/db/:id', async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const id = req.params.id;
 
-    res.status(200).send({id}); // O send() envia APENAS 1 Informação !! 
+    // Adicionando Banco de Dados:
+    // OBS: Passar o ID Registrado no Banco de Dados na URL do Navegador !!
+    const dbId = await userRepository.findById(id); // Variável id como Parâmetro !
+
+    res.status(200).send(dbId); // O send() envia APENAS 1 Informação !! 
 });
 
     // Como é POST, óbvio, precisar Enviar as Requisições pelo Thunder Client - POST !!

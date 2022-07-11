@@ -21,7 +21,7 @@ import express from 'express';
 import usersRoutes from './routes/users.route'; // Nesse caso, NÃO precisa dos {} !!
 import sectionsRoute from './routes/getId.route'; 
 import crudRoute from './routes/crud.route';
-import checkStatus from './checkStatus.route';
+import checkStatus from './routes/checkStatus.route';
 
 const server = express();
 const host = 'http://localhost';
