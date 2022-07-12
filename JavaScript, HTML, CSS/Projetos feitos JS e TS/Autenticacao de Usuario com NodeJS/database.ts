@@ -5,7 +5,7 @@ import { Pool } from "pg";
 
     // USAR esse Nome na Variável !!
     // Esse URL é fornecido no ElephantSQL !
-const connectionString = 'postgres://ylziwrko:ceQYBtUBj25We6Zrg7VXdJK-cdntExnI@motty.db.elephantsql.com/ylziwrko';
+const connectionString = 'postgres://USER:PASSWORD@motty.db.elephantsql.com/ylziwrko';
 
 const firstDatabase =  new Pool({ connectionString }); // Isso vai ser Exportado !
 
