@@ -22,6 +22,8 @@ import usersRoutes from './routes/users.route'; // Nesse caso, NÃO precisa dos 
 import sectionsRoute from './routes/getId.route'; 
 import crudRoute from './routes/crud.route';
 import checkStatus from './routes/checkStatus.route';
+import errorHandler from './middlewares/error-handler.middleware';
+import authenticationRoute from './routes/authentication.route';
 
 const server = express();
 const host = 'http://localhost';
@@ -38,6 +40,10 @@ server.use(usersRoutes); // Pede para o Servidor (variável server) Usar a Impor
 server.use(sectionsRoute);
 server.use(crudRoute);
 server.use(checkStatus);
+server.use(authenticationRoute);
+
+    // Configuração dos Handlers de Erro (Sempre no FINAL !!)
+server.use(errorHandler);
 
     // Inicializando o Server
 server.listen(port, () => { // Essa Arrow Function serve, nesse caso, se estiver Escutando na Porta 3000, Executa algo !!
