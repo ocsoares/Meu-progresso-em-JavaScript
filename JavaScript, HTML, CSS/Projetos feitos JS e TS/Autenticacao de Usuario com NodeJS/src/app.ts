@@ -12,7 +12,7 @@
     // ../Nome da Pasta/Arquivo = Executa um Arquivo em OUTRA Pasta Atrás !!
 
     // Iniciando o Desenvolvimento:
-// npm init, tsc init
+// npm init, tsc --init
 // npm install --save-dev typescript ( --save-dev para colocar Automaticamente como Dependência de Desenvolvimento no package.json !!)
 // npm install --save-dev @types/node
 // npm install --save express  ( --save para colocar Automaticamente nas Dependências do package.json !!)
