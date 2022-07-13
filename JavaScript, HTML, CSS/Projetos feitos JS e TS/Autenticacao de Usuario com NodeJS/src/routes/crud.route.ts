@@ -1,12 +1,13 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import userRepository from "../db-repository/user.repository";
+import basicAuthenticatorMiddleware from "../middlewares/basic-authenticator.middleware";
 
 const crudRoute = Router();
 
     // Rota para o Banco de Dados (Assíncrono) !!
     //  OBS: Mostra os Usuários do Banco de Dados !
-crudRoute.get('/db', async (req: Request, res: Response, next: NextFunction) => {
+crudRoute.get('/db', basicAuthenticatorMiddleware, async (req: Request, res: Response, next: NextFunction) => {
     const users = await userRepository.findUsers();
 
         // Isso aqui serve para ver a Autenticação Básica do HTTP, para ver isso, ir em Thunder Client - GET na
@@ -17,7 +18,7 @@ crudRoute.get('/db', async (req: Request, res: Response, next: NextFunction) => 
     res.status(200).send(users);
 });
 
-crudRoute.get('/db/:id', async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+crudRoute.get('/db/:id', basicAuthenticatorMiddleware, async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
     
@@ -34,7 +35,7 @@ crudRoute.get('/db/:id', async (req: Request<{id: string}>, res: Response, next:
 });
 
     // Como é POST, óbvio, precisar Enviar as Requisições pelo Thunder Client - POST !!
-crudRoute.post('/db', async (req: Request, res: Response, next: NextFunction) => {
+crudRoute.post('/db', basicAuthenticatorMiddleware, async (req: Request, res: Response, next: NextFunction) => {
     const newUser = req.body;
 
         // Adicionando Banco de Dados !!
@@ -49,7 +50,7 @@ crudRoute.post('/db', async (req: Request, res: Response, next: NextFunction) =>
     // PUT = Edita os Dados
     // Como ele Edita um Dado (nesse caso, Usuário) ele precisa saber do ID dele, por isso do <{id}> !!
     //  OBS: Editar pelo link/ID no modo PUT !!
-crudRoute.put('/db/:id', async (req: Request<{id: string}>, res: Response, next: NextFunction) =>{  // NÃO TA ALTERANDO N SEI PQ !! <<
+crudRoute.put('/db/:id', basicAuthenticatorMiddleware, async (req: Request<{id: string}>, res: Response, next: NextFunction) =>{  // NÃO TA ALTERANDO N SEI PQ !! <<
     const id = req.params.id;
 
     const changedId = req.body;
@@ -62,7 +63,7 @@ crudRoute.put('/db/:id', async (req: Request<{id: string}>, res: Response, next:
 });
 
     // Passar pelo link/id !!
-crudRoute.delete('/db/:id', async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
+crudRoute.delete('/db/:id', basicAuthenticatorMiddleware, async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     const id = req.params.id;
 
     await userRepository.deleteAUser(id);

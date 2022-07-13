@@ -1,6 +1,8 @@
     // IMPORTANTE: Coloquei um Script no package.json para Transpilar Automaticamente TODOS os Arquivos.tsc DESSA Pasta para o Diretório dist !!
     // OBS: Para rodar esse script no Terminal: npm run tscdir   !!
 
+    // >>> IMPORTANTE: Coloquei a Conexão com o Banco de Dados (database.ts) no .gitignore para NÃO EXPOR meu Usuário e Senha do DB !!! <<<< 
+
     // Essa pasta src serve APENAS para o Arquivo BRUTO, de Desenvolvimento !
     //  OBS: VAI pro Git !! <<<
 
@@ -24,6 +26,8 @@ import crudRoute from './routes/crud.route';
 import checkStatus from './routes/checkStatus.route';
 import errorHandler from './middlewares/error-handler.middleware';
 import authenticationRoute from './routes/authentication.route';
+import basicAuthenticatorMiddleware from './middlewares/basic-authenticator.middleware';
+import jwtAuthenticatorMiddleware from './middlewares/jwt-authentication.middleware';
 
 const server = express();
 const host = 'http://localhost';
@@ -34,12 +38,16 @@ const port = 3000;
 server.use(express.json()) // Permite o Servidor Ler JSON !!!
 server.use(express.urlencoded({ extended: true })); // Permite o Servidor Entender o conteúdo da URL !!
 // ----------------------------------------
+    // IMPORTANTE: A ORDEM NO EXPRESS IMPORTA !!
+// OBS: Se colocar uma Função no .use, ela Afeta TODAS as ROTAS abaixo DELA (ex. app.use(basicAuthenticatorMiddleware, checkStatus);  !!!!
+// Por esse motivo É IMPORTANTE colocar as Funções em CADA Rota INDEPENDENTE (se não quiser que TODAS as Rotas Tenham o MESMO Método de Aut-
+// -enticação, óbvio) !!!
 
     // Configurando as Rotas (Exportadas !)
 server.use(usersRoutes); // Pede para o Servidor (variável server) Usar a Importação usersRoutes !
 server.use(sectionsRoute);
-server.use(crudRoute);
-server.use(checkStatus);
+server.use(crudRoute); // Autenticadas com Token Basic !
+server.use(checkStatus); // Autenticada com Token JWT !!
 server.use(authenticationRoute);
 
     // Configuração dos Handlers de Erro (Sempre no FINAL !!)

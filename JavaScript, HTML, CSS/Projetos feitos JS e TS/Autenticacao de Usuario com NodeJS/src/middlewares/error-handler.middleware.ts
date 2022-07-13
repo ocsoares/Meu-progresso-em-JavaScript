@@ -8,7 +8,7 @@ import MyDatabaseError from "../models/database-error.model";
 function errorHandler(error: any, req: Request, res: Response, next: NextFunction){
     if (error instanceof MyDatabaseError) { // Se for um Erro do Tipo da minha Classe, faz os códigos seguintes...
         console.log(error);
-        res.sendStatus(StatusCodes.BAD_GATEWAY);
+        res.sendStatus(StatusCodes.BAD_REQUEST);
     }
     else if(error instanceof AuthenticatorForbiddenError){
         res.sendStatus(StatusCodes.FORBIDDEN);

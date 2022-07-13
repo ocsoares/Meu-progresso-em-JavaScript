@@ -35,7 +35,7 @@ class UserRepository{
             const { rows } = await firstDatabase.query<IUser>(queryToId, valuesId);
 
             // Destrutura o Array para essa Variável !
-            const [returnId] = rows;   // Destruct de Array [] !!!    Mesma coisa que returnId = rows[0] !!!
+            const [returnId] = rows;   // Destruct de Array [] !!!    Mesma coisa que returnId = rows[0] !!!  OBS: NÃO ESQUECER dos [] !!!! <<<<<<<
 
             return returnId;
         }
@@ -78,16 +78,18 @@ class UserRepository{
         await firstDatabase.query(queryToDelete, valuesDelete);
     }
 
+        // TIREI A SENHA PQ TAVA DANDO ERRO !! (ACHO que é a Criptografia !)
+        
         // Promessa de Retornar algo IUser, se encontrar alguém com o Nome e a Senha Informada, null SE NÃO encontrar !!
-    async findByUsernameAndPassword(username: string, password: string): Promise<IUser[] | null>{
-        try {
-            const queryToAuthenticate = ` SELECT uuid, username FROM application_user WHERE username = $1 AND password = crypt($2, gen_salt('md5')) `
-
-            const valuesAuthenticate = [username, password];
+    async findByUsernameAndPassword(username: string): Promise<IUser | null>{
+        try {                          //, password: string                  // AND password = crypt($2, gen_salt('md5'))  --- POR ALGUM MOTIVO com a Senha dá Erro !!!
+            const queryToAuthenticate = ` SELECT uuid, username FROM application_user WHERE username = $1 `;
+                                        //,password
+            const valuesAuthenticate = [username];
 
             // Do tipo IUser, óbvio !  
             const { rows } = await firstDatabase.query<IUser>(queryToAuthenticate, valuesAuthenticate);
-            const returnUser = rows; // Pega a Primeira Posição de rows !  ( rows[0] )
+            const [returnUser] = rows; // Pega a Primeira Posição de rows !  ( rows[0] )  OBS: NÃO ESQUECER dos [] !!!! <<<<<<<
 
             // Retorna o User se achar, SE NÃO, Retorna null !!
             return returnUser || null;
