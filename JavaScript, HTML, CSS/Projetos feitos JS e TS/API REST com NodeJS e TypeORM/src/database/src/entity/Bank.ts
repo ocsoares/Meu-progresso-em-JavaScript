@@ -1,4 +1,3 @@
-import { text } from "stream/consumers";
 import { Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Account } from "./Account";
 
@@ -15,7 +14,10 @@ export class Bank{
     // Cria uma Coluna (nesse caso, de name !!)
     // type: Tipo de Dado que a Coluna representa ! (se NÃO passar isso, Gera Automaticamente uma espécia de varchar !!)  
     @Column({type: 'text'})
-    name: string
+    name_bank: string
+
+    @Column({type: 'text'})
+    type_user: string
 
     // Transforma essa propriedade em um ARRAY do Tipo Account !
 
