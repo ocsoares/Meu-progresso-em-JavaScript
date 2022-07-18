@@ -2,6 +2,8 @@ import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColu
 import { Bank } from "./Bank";
 import { Fees } from "./Taxas";
 
+    // Em algumas situações é Melhor usar uuid para não permitir possíveis brechas de segurança com o ID exposto na URL !! <<
+
 @Entity('accounts')
 export class Account{
     @PrimaryGeneratedColumn()
