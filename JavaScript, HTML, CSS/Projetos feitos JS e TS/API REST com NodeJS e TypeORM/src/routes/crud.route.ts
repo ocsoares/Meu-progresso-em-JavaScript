@@ -15,6 +15,7 @@ crudRoute.post('/bank/:idBank/associate', new AccountController().createAndAssoc
 
 crudRoute.put('/updateaccount/:idAccount', new AccountController().updateAccount);
 crudRoute.put('/rechargeaccount/:idAccount', new AccountController().rechargeAccount);
+crudRoute.put('/withdrawal/:AccountIDToTransfer', new AccountController().withdrawalAccount);
 
 crudRoute.delete('/deleteaccount/:idAccount', new AccountController().deleteAccount);
 

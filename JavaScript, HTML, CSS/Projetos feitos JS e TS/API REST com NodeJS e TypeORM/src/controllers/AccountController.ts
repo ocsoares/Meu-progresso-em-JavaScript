@@ -138,6 +138,7 @@ export class AccountController{
 
         if(!searchAccount) return res.sendStatus(StatusCodes.NOT_FOUND);
 
+            // Pegando o Balanço ATUAL do ID Especificado !
         const searchBalance = await AccountRepository.find({
             select: ["balance"],
             where: {
@@ -159,5 +160,67 @@ export class AccountController{
         })
 
         return res.status(StatusCodes.CREATED).json({message: `${balance} foram depositados na sua conta com sucesso !`});
+    }
+
+    async withdrawalAccount(req: Request, res: Response){ // FALTA TERMINAR AS VERIFICAÇÕES (se tiver mais...) !!
+        try{
+            const {yourAccountID, transfer } = req.body
+            const { AccountIDToTransfer } = req.params;
+    
+            if(transfer === 0) return res.status(StatusCodes.BAD_REQUEST).json({message: 'Não é possível transferir 0 !'});
+            if(!yourAccountID || !transfer) return res.sendStatus(StatusCodes.BAD_REQUEST);
+            if(typeof(yourAccountID) !== 'number' || typeof(transfer) !== 'number') return res.sendStatus(StatusCodes.BAD_REQUEST);
+            
+            const searchYourAccountID = await AccountRepository.findOneBy({id: Number(yourAccountID)});
+    
+            if(!searchYourAccountID) return res.status(StatusCodes.NOT_FOUND).json({message: 'Conta não encontrada !'});
+            
+            const searchYourBalance = await AccountRepository.find({
+                select: ["balance"],
+                where: {
+                    id: Number(yourAccountID)
+                }
+            })
+    
+            const [ Account ] = searchYourBalance;
+            const yourAccountBalance = Number(Account.balance);
+    
+            const searchOtherAccountID = await AccountRepository.findOneBy({id: Number(AccountIDToTransfer)});
+    
+            if(!searchOtherAccountID) return res.sendStatus(StatusCodes.BAD_REQUEST);
+    
+            const searchOtherAccountBalance = await AccountRepository.find({
+                select: ["balance"],
+                where: {
+                    id: Number(AccountIDToTransfer)
+                }
+            })
+            
+            const [ otherAccount ] = searchOtherAccountBalance;
+            const otherAccountBalance = Number(otherAccount.balance);
+    
+                // Depois de pegar o ID e o Balanço DAS DUAS CONTAS, agora por último vou atualizar...
+    
+                    // SUA Conta
+            const newBalanceYourAccount = yourAccountBalance - transfer;
+            
+            await AccountRepository.update(yourAccountID, { // Conta que vai ter o Balanço SACADO !
+                ...searchYourAccountID,
+                balance: newBalanceYourAccount
+            })
+
+                    // OUTRA Conta
+            const newBalanceOtherAccount = otherAccountBalance + transfer;
+    
+            await AccountRepository.update(AccountIDToTransfer, {
+                ...searchOtherAccountID,
+                balance: newBalanceOtherAccount
+            })
+    
+            return res.status(StatusCodes.OK).json({message: `R$${transfer} foram transferidos para a conta ${AccountIDToTransfer} !` });
+        }
+        catch(error){
+            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+        }
     }
 }
