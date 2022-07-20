@@ -1,9 +1,15 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
+import { StatusCodes } from "http-status-codes";
 import { AccountController } from "../controllers/AccountController";
 import { BankController } from "../controllers/BankController";
-import ShowUsersCrudController from "../controllers/ShowUsersCrudController";
+import { ApiError, BadRequestError, NotFoundError } from "../models/api-error.model";
 
 const crudRoute = Router();
+
+crudRoute.get('/', (req: Request, res: Response) => {
+    //console.log(ApiError);
+    throw new ApiError('mamao', StatusCodes.ACCEPTED);
+});
 
 //crudRoute.get('/users', new ShowUsersCrudController().create);
 

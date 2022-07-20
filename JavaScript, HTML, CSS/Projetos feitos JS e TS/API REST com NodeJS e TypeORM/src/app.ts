@@ -22,12 +22,14 @@
 
 // Ver as Variáveis DISPONÍVELS em um Determinado Código: CTRL + Espaço !!
 
-import express  from "express";
+import 'express-async-errors';
+import express, { NextFunction, Request, Response }  from "express";
 import { AppDataSource } from "./data-source";
 import 'reflect-metadata'; // n sei se precisa disso <
 
 import crudRoute from "./routes/crud.route";
 import checkStatus from "./routes/status-server.route";
+import { errorMiddleware } from "./middlewares/error.middleware";
 
     // Primeiro aguarda o Banco Dados conectar com a Aplicação, e DEPOIS inicializa o Express, para evitar Erros de conexão !!
 AppDataSource.initialize().then(() => {
@@ -43,6 +45,12 @@ AppDataSource.initialize().then(() => {
         // Rotas
     server.use(checkStatus);
     server.use(crudRoute);
+
+        // Adicionando Tratamento de Erros (dessa Maneira NÃO precisa utilizar try, catch ) !
+        //  OBS: Tratamento de Erros no Express é SEMPRE por ÚLTIMO, ANTES do listen !!
+        //  OBS: Dessa maneira SÓ FUNCIONA COM Funções Síncronas (async NÃO funciona) !! <<
+        //  OBS: Se for utilizar com Funções Assíncrona, Instalar e Importar AQUI a Biblioteca: express-async-errors
+    server.use(errorMiddleware);
     
         // Conectando o Servidor
         //  OBS: Com o Typeorm, essa Função tem que ser o RETORNO (return) !! 
