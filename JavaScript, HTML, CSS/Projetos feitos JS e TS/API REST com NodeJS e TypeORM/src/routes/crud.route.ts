@@ -6,6 +6,7 @@ import { ApiError, BadRequestError, NotFoundError } from "../models/api-error.mo
 
 const crudRoute = Router();
 
+    // Usado para TESTAR os Erros !
 crudRoute.get('/', (req: Request, res: Response) => {
     //console.log(ApiError);
     throw new ApiError('mamao', StatusCodes.ACCEPTED);

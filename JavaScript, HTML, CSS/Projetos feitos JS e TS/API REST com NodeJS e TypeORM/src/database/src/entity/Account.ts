@@ -16,7 +16,8 @@ export class Account{
     @Column({type:'text', nullable: false})
     person_password: string
 
-    @Column({type: 'text', nullable: false})
+        // Unique = ÚNICO, NÃO pode ter outra Conta com esse MESMO CPF 
+    @Column({type: 'text', nullable: false, unique: true})
     cpf: number
 
     @Column({type: 'text', nullable: false})

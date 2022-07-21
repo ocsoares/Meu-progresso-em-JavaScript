@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { bankRepository } from "../repositories/bankRepository";
 import { AccountRepository } from "../repositories/accountRepository";
 import { BadRequestError, NotFoundError } from "../models/api-error.model";
+import bcrypt from 'bcrypt' // Biblioteca para Criptografar a Senha !
 
 // O ID que vai colocar na URL se encontra no Banco de Dados !! <<
 
@@ -16,25 +17,34 @@ export class AccountController{
     
                                                 // findOneWhere já Implementa Diretamente o WHERE, então NÃO precisa do where: , se fosse apen-
                                                 // - enas findOne Precisaria !!
-            const createdAccount = await bankRepository.findOneBy({id: Number(idBank) }) // Como NÃO aceita string, usei Number no id !!
+            const searchBankID = await bankRepository.findOneBy({id: Number(idBank) }) // Como NÃO aceita string, usei Number no id !!
     
-            if(!createdAccount) throw new NotFoundError('Banco não encontrado !')
-    
-            const associateAccount = AccountRepository.create({
-                person_name, // TAMBÉM podia usar : , Mas como é o MESMO nome da Variável em req.body, NÃO precisa !!
-                person_password,
-                cpf,
-                balance,
-                bank: createdAccount // Associação com o Banco (informado pelo ID na URL) !!
-            })     
+            if(!searchBankID) throw new NotFoundError('Banco não encontrado !')
+
+            const searchCPFAccount = await AccountRepository.findOneBy({cpf});
+
+            if(searchCPFAccount) throw new BadRequestError('Já existe um Usuário cadastrado com esse CPF !');
     
             if(!person_name || !person_password || !cpf || !balance) throw new BadRequestError();
             if(typeof(person_name) !== 'string' || typeof(person_password) !== 'string' || typeof(cpf) !== 'number' || typeof(balance) !== 'number') throw new BadRequestError();
-            
+
+                // Criptografando a Senha com a Biblioteca bcrypt !!
+                // Salt = É o nível de Processamento que o computador vai Usar para criptografar a Senha !
+                //  OBS: O salt é RECOMENDADO usar 10, ou entre 10 e 8, Mais que isso pode deixar a Aplicação LENTA !!
+            const encryptPassword = await bcrypt.hash(person_password, 10) // Senha a ser criptografada + Salt !!
+
+            const associateAccount = AccountRepository.create({
+                person_name, // TAMBÉM podia usar : , Mas como é o MESMO nome da Variável em req.body, NÃO precisa !!
+                person_password: encryptPassword,
+                cpf,
+                balance,
+                bank: searchBankID // Associação com o Banco (informado pelo ID na URL) !!
+            })     
+    
             await AccountRepository.save(associateAccount);
             console.log(associateAccount);
     
-            return res.status(StatusCodes.CREATED).json(associateAccount);
+            return res.status(StatusCodes.CREATED).json({message: `A conta com o nome ${person_name} e CPF ${cpf} foi criada com sucesso !`});
     }
 
     async justCreateAnAccount(req: Request, res: Response){
@@ -44,10 +54,12 @@ export class AccountController{
             if(typeof(person_name) !== 'string' || typeof(person_password) !== 'string' || typeof(cpf) !== 'number' || typeof(balance) !== 'number'){
                 throw new BadRequestError();
             }
+
+            const encryptPassword = await bcrypt.hash(person_password, 10); // NÃO esquecer do await !
     
             const newAccount = AccountRepository.create({
                 person_name,
-                person_password,
+                person_password: encryptPassword,
                 cpf,
                 balance
             })
@@ -77,15 +89,20 @@ export class AccountController{
             const { person_name, person_password } = req.body
             const { idAccount } = req.params
 
+            if(!person_name || !person_password) throw new BadRequestError();
+            if(typeof(person_name) !== 'string' || typeof(person_password) !== 'string') throw new BadRequestError();
+
             const searchAccount = await AccountRepository.findOneBy({id: Number(idAccount)});
 
             if(!searchAccount) throw new NotFoundError('Essa conta não existe !');
 
+            const encryptPassword = await bcrypt.hash(person_password, 10);
+
             AccountRepository.update(idAccount, { // Id do que Quer atualizar !
                 ...searchAccount, // {...(spread)Variável que RECEBE o Id = para Pegar TUDO o que tem Dentro do Objeto !! }
                 
-                person_name: person_name, // Propriedades a serem ATUALIZADAS/ALTERADAS !!
-                person_password: person_password
+                person_name, // Propriedades a serem ATUALIZADAS/ALTERADAS !!
+                person_password: encryptPassword
             })
 
                 // Por algum motivo ALTERA no Banco de Dados, MAS no Terminal aqui no VSCode só aparece Corretamente depois de Atualizar du-

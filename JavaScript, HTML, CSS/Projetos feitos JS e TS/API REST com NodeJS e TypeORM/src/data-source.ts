@@ -12,11 +12,11 @@ const port = process.env.DB_PORT as unknown as number | undefined;
 export const AppDataSource = new DataSource({
         //Database LOCAL (Na MINHA Máquina !!) <
     type: 'postgres',
-    host: 'localhost',
+    host: process.env.DB_HOST,
     port: port, // port: process.env.DB_PORT - Tava dando ERRO porque port Aceita NUMBER ou Undefined, e DB_PORT é String !!!
-    username: 'postgres',
-    password: 'Cadb016!',
-    database: 'TypeORM_database',
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
 
     // Passando TODAS AS Entities do meu Projeto com esse Comando aí ! (__dirname = TUDO até a Pasta Raíz do Arquivo)
     entities: [`${__dirname}/**/entity/*.{ts,js}`], // /*.{ts,js} = Dentro da pasta, nesse caso, entity, Pega TODOS os Arquivos .ts e .js (.js quando for TRANSPILADO, óbvio !!) 

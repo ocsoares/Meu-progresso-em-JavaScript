@@ -22,14 +22,16 @@
 
 // Ver as Variáveis DISPONÍVELS em um Determinado Código: CTRL + Espaço !!
 
-import 'express-async-errors';
+import 'dotenv/config' // Quanto MAIS NO TOPO o dotenv se encontra, MELHOR !! << O Arquivo .env TEM que ficar na RAÍZ da Pasta !! <<
 import express, { NextFunction, Request, Response }  from "express";
+import 'express-async-errors';
 import { AppDataSource } from "./data-source";
 import 'reflect-metadata'; // n sei se precisa disso <
 
-import crudRoute from "./routes/crud.route";
 import checkStatus from "./routes/status-server.route";
 import { errorMiddleware } from "./middlewares/error.middleware";
+import crudRoute from './routes/crud.route';
+import loginRoute from "./routes/login.route";
 
     // Primeiro aguarda o Banco Dados conectar com a Aplicação, e DEPOIS inicializa o Express, para evitar Erros de conexão !!
 AppDataSource.initialize().then(() => {
@@ -45,6 +47,7 @@ AppDataSource.initialize().then(() => {
         // Rotas
     server.use(checkStatus);
     server.use(crudRoute);
+    server.use(loginRoute);
 
         // Adicionando Tratamento de Erros (dessa Maneira NÃO precisa utilizar try, catch ) !
         //  OBS: Tratamento de Erros no Express é SEMPRE por ÚLTIMO, ANTES do listen !!

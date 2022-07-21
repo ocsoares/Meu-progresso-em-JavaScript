@@ -10,8 +10,6 @@ export const errorMiddleware = (
     next: NextFunction // Por algum motivo TEM que ter o next: NextFunction, MESMO ele NÃO sendo lido !
 ) => {
 
-        console.log(error);
-
         // Se error.statusCode EXISTIR, atribua a Variável statusCode, SE NÃO (ou se for Undefined ou Nulo) Retorna o status code 500 !! 
         //  OBS: Se NÃO o statuscode não existir, vai Retornar 500 porque foi um Erro Inesperado !!
     const statusCode = error.statusCode ?? StatusCodes.INTERNAL_SERVER_ERROR;
