@@ -29,3 +29,9 @@ export class NotFoundError extends ApiError{
         this.name = 'ErrorNotFound';
     }
 }
+export class  UnauthorizedError extends ApiError{
+    constructor(message?: string){
+        super(message, StatusCodes.UNAUTHORIZED);
+        this.name = 'ErrorUnauthorized';
+    }
+}

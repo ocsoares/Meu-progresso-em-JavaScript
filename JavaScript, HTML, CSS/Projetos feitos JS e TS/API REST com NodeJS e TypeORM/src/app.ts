@@ -23,7 +23,7 @@
 // Ver as Variáveis DISPONÍVELS em um Determinado Código: CTRL + Espaço !!
 
 import 'dotenv/config' // Quanto MAIS NO TOPO o dotenv se encontra, MELHOR !! << O Arquivo .env TEM que ficar na RAÍZ da Pasta !! <<
-import express, { NextFunction, Request, Response }  from "express";
+import express from "express";
 import 'express-async-errors';
 import { AppDataSource } from "./data-source";
 import 'reflect-metadata'; // n sei se precisa disso <

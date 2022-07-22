@@ -15,6 +15,9 @@ export class AccountController{
             const { person_name, person_password, cpf, balance } = req.body;
             const { idBank } = req.params // Parâmetros da Rota (informado na URL /:algo... ) !!!
     
+            if(!person_name || !person_password || !cpf || !balance) throw new BadRequestError();
+            if(typeof(person_name) !== 'string' || typeof(person_password) !== 'string' || typeof(cpf) !== 'number' || typeof(balance) !== 'number') throw new BadRequestError();
+
                                                 // findOneWhere já Implementa Diretamente o WHERE, então NÃO precisa do where: , se fosse apen-
                                                 // - enas findOne Precisaria !!
             const searchBankID = await bankRepository.findOneBy({id: Number(idBank) }) // Como NÃO aceita string, usei Number no id !!
@@ -24,9 +27,6 @@ export class AccountController{
             const searchCPFAccount = await AccountRepository.findOneBy({cpf});
 
             if(searchCPFAccount) throw new BadRequestError('Já existe um Usuário cadastrado com esse CPF !');
-    
-            if(!person_name || !person_password || !cpf || !balance) throw new BadRequestError();
-            if(typeof(person_name) !== 'string' || typeof(person_password) !== 'string' || typeof(cpf) !== 'number' || typeof(balance) !== 'number') throw new BadRequestError();
 
                 // Criptografando a Senha com a Biblioteca bcrypt !!
                 // Salt = É o nível de Processamento que o computador vai Usar para criptografar a Senha !
@@ -216,7 +216,7 @@ export class AccountController{
                 ...searchOtherAccountID,
                 balance: newBalanceOtherAccount
             })
-    
+
             return res.status(StatusCodes.OK).json({message: `R$${transfer} foram transferidos para a conta ${AccountIDToTransfer} !` });
     }
 }

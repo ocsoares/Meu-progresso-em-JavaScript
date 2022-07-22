@@ -1,10 +1,9 @@
-import { Request, Response } from "express";
-import { BadRequestError } from "../models/api-error.model";
+import { Request, response, Response } from "express";
+import { BadRequestError, NotFoundError, UnauthorizedError } from "../models/api-error.model";
 import { AccountRepository } from "../repositories/accountRepository";
 import bcrypt, { compare } from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
-
 
 export class LoginAccountController{
     async login(req: Request, res: Response){
@@ -32,50 +31,58 @@ export class LoginAccountController{
             // Se o Usuário passar por todas essas Verificações, significa que ESTÁ LOGADO, então abaixo farei o Token de
             // autenticação desse usuário !! <<
 
+        // -----------------------------------------------------------------
+
+            // Como esse Hash é gerado Constantemente e APENAS nesse Escopo da Função, GUARDEI um FIXO no .env pa-
+            // -ra poder utilizar FORA desse Escopo !!! << 
+
             // Preparando uma Hash para Assinar o JWT baseado no CPF e no Nome do Usuário !
-        // -----------------------------------------------------------------
-        const CPFtoString = searchUser.cpf.toString();
-        //console.log(CPFtoString);
+        // const CPFtoString = searchUser.cpf.toString();
+        // console.log(CPFtoString);
 
-        const CPFslice = CPFtoString.slice(2,5);
-        const prepareCPFToEncrypt = CPFslice.concat(CPFslice);
-        //console.log(prepareCPFToEncrypt);
+        // const CPFslice = CPFtoString.slice(2,5);
+        // const prepareCPFToEncrypt = CPFslice.concat(CPFslice);
+        // console.log(prepareCPFToEncrypt);
         
-        const prepareNameToEncrypt = searchUser.person_name.split(' ')[0];
-        //console.log(prepareNameToEncrypt);
+        // const prepareNameToEncrypt = searchUser.person_name.split(' ')[0];
+        // console.log(prepareNameToEncrypt);
         
-        const prepareHash = prepareCPFToEncrypt.concat(prepareNameToEncrypt);
-        //console.log(prepareHash);
+        // const prepareHash = prepareCPFToEncrypt.concat(prepareNameToEncrypt);
+        // console.log(prepareHash);
         
-        const newHashJWT = await bcrypt.hash(prepareHash, 10);
-        console.log(newHashJWT);
+        // const newHashJWT = await bcrypt.hash(prepareHash, 10);
+        // console.log(newHashJWT);
         
-        const verifyNewHash = await bcrypt.compare(prepareHash, newHashJWT);
-        //console.log(verifyNewHash);
+        // const verifyNewHash = await bcrypt.compare(prepareHash, newHashJWT);
+        // console.log(verifyNewHash);
         // -----------------------------------------------------------------
-
         
             // Nesse caso, o token vai ser Gerado para o ID do Usuário !! 
             //  OBS: O Hash passado, nesse caso, vai ser o Gerado ACIMA baseado no CPF e Nome do Usuário !! 
-            //  OBS: A Opção expiresIn além de poder ser passado Números, TAMBÉM pode passar string, ex: '1d', '8h', etc...                        
-        const JWTtoken = jwt.sign({ id: searchUser.id }, newHashJWT, { // Payload + Hash + Opções... !!
+            //  OBS: A Opção expiresIn além de poder ser passado Números, TAMBÉM pode passar string, ex: '1d', '8h', etc...  
+                                                        // Hash ?? '' = Fiz isso porque tava dando um Erro (se a Chave NÃO existir
+                                                        //  vai ser uma String VAZIA, mas NUNCA vai ser coloquei só para Arrumar !)                      
+        const JWTtoken = jwt.sign({ id: searchUser.id }, process.env.JWT_HASH ?? '', { // Payload + Hash + Opções... !!
             expiresIn: '12h'
         });
-
-        console.log(JWTtoken); 
 
             // Tirando a Senha do Usuário com Desestruturação !!
             // Propriedade:_  EXCLUI a Propriedade  !!
             // ...Variável = Nesse caso como tirei a Senha, Retorna TODO o searchUser MAS SEM a Senha !! <<
             
         const { person_password:_, ...infoUser} = searchUser;
-        console.log(searchUser);
-        console.log(infoUser);
 
             // Retornar os Dados do Usuário SEM A SENHA !!
         return res.status(StatusCodes.OK).json({
             infoUser,
             JWTtoken
         });
+    }
+
+        // Usar APÓS o Middleware para ver o Retorno das Informações do Usuário (SEM a Senha) !! <<
+    async returnInfoUserLogged(req: Request, res: Response){
+
+            // Se esse ID existir, Retorna as Informações dele, MAS SEM a Senha !! <<
+        return res.json(req.user); // req.user = Feito no Middleware authJWT !! <
     }
 }
