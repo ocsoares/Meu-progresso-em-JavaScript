@@ -1,7 +1,7 @@
-import { Request, response, Response } from "express";
-import { BadRequestError, NotFoundError, UnauthorizedError } from "../models/api-error.model";
+import { Request, Response } from "express";
+import { BadRequestError } from "../models/api-error.model";
 import { AccountRepository } from "../repositories/accountRepository";
-import bcrypt, { compare } from 'bcrypt';
+import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 
@@ -72,7 +72,7 @@ export class LoginAccountController{
             
         const { person_password:_, ...infoUser} = searchUser;
 
-            // Retornar os Dados do Usuário SEM A SENHA !!
+            // Retornar os Dados do Usuário SEM A SENHA e o Token Autenticado dele !!
         return res.status(StatusCodes.OK).json({
             infoUser,
             JWTtoken
@@ -82,7 +82,12 @@ export class LoginAccountController{
         // Usar APÓS o Middleware para ver o Retorno das Informações do Usuário (SEM a Senha) !! <<
     async returnInfoUserLogged(req: Request, res: Response){
 
-            // Se esse ID existir, Retorna as Informações dele, MAS SEM a Senha !! <<
+            // Se conseguir passar pelo JWTtoken (que está na ROTA), pela lógica é um Token VÁLIDO, então apenas RE-
+            // -TORNA as Informações do Usuário (SEM A SENHA) !! <<
         return res.json(req.user); // req.user = Feito no Middleware authJWT !! <
+    }
+
+    async returnInfoUserLoggedWithID(req: Request, res: Response){
+        return res.json(req.userWithIDParameter);
     }
 }

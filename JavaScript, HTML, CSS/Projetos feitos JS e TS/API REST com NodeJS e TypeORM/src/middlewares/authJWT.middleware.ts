@@ -6,6 +6,7 @@ import { AccountRepository } from "../repositories/accountRepository";
 // Usado para TIPAR o ID na Função confirmIfAreLogged !!
 type JWTPayloadID = {
     id: number
+//  iat: number       <-- EXEMPLO, Também poderia usar isso para Pegar o iat do JWT Token !! <<
 }
 
 export const authJWTMiddleware = async (req: Request, res: Response, next: NextFunction) => {

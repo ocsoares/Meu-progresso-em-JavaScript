@@ -1,30 +1,23 @@
-import { Request, Response, Router } from "express";
-import { StatusCodes } from "http-status-codes";
+import { Router } from "express";
 import { AccountController } from "../controllers/AccountController";
 import { BankController } from "../controllers/BankController";
+import { authJWTWithID } from "../middlewares/authJWT-ID.middleware";
 import { authJWTMiddleware } from "../middlewares/authJWT.middleware";
-import { ApiError, BadRequestError, NotFoundError } from "../models/api-error.model";
 
 const crudRoute = Router();
-
-    // Usado para TESTAR os Erros !
-crudRoute.get('/', (req: Request, res: Response) => {
-    //console.log(ApiError);
-    throw new ApiError('mamao', StatusCodes.ACCEPTED);
-});
 
 //crudRoute.get('/users', new ShowUsersCrudController().create);
 
 crudRoute.get('/db/users', authJWTMiddleware, new AccountController().showAccounts);
 
 crudRoute.post('/createbank', new BankController().create);
-crudRoute.post('/justcreateaccount', authJWTMiddleware, new AccountController().justCreateAnAccount);
-crudRoute.post('/bank/:idBank/associate', authJWTMiddleware, new AccountController().createAndAssociateAccountWithBank);
+crudRoute.post('/justcreateaccount', new AccountController().justCreateAnAccount);
+crudRoute.post('/bank/:idBank/associate', new AccountController().createAndAssociateAccountWithBank);
 
-crudRoute.use(authJWTMiddleware);
-crudRoute.put('/updateaccount/:idAccount', new AccountController().updateAccount);
-crudRoute.put('/rechargeaccount/:idAccount', new AccountController().rechargeAccount);
-crudRoute.put('/withdrawal/:AccountIDToTransfer', new AccountController().withdrawalAccount);
+//crudRoute.use(authJWTWithID); // <-- Por algum motivo, isso aqui deixa esse Middleware GLOBAL no Código, e que resulta em ERRO no Código << !!
+crudRoute.put('/updateaccount/:idAccount', authJWTWithID, new AccountController().updateAccount);
+crudRoute.put('/rechargeaccount/:idAccount', authJWTWithID, new AccountController().rechargeAccount);
+crudRoute.put('/withdrawal/:AccountIDToTransfer', authJWTWithID, new AccountController().withdrawalAccount);
 
 crudRoute.delete('/deleteaccount/:idAccount', new AccountController().deleteAccount);
 

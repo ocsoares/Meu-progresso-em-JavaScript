@@ -158,6 +158,7 @@ export class AccountController{
             balance: newBalance // Balance Antigo SOMADO ao Balance DEPOSITADO !!
         })
 
+        console.log('ID da Conta recharge:', idAccount);
         return res.status(StatusCodes.CREATED).json({message: `${balance} foram depositados na sua conta com sucesso !`});
     }
 
