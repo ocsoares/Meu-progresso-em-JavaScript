@@ -1,4 +1,4 @@
-const variousNumbersFunctionWithSpread = (...numbers) => {
+const variousNumbersFunctionWithSpread = (...numbers) => { // Coloca TODOS os Elementos passados no ...spread como ARRAY !! <<
     const array = []
 
     array.push(numbers)
