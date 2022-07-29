@@ -1,0 +1,95 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #5f7c8a;
+}
+
+form{
+    background-color: white;
+    max-width: 500px;
+    width: 70%;
+    padding: 20px;
+    position: absolute;
+    left: 50%; /* Daqui para baixo CENTRALIZA na Tela !! */
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.email{
+    max-width: 16px;
+}
+
+.password{
+    max-width: 19px;
+}
+
+form h3{
+    text-align: center;
+    color: #5f7c8a;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 33px;
+}
+
+form input[type=text], [type=password], [type=number] {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #ccc;
+    padding-left: 60px;
+    margin: 10px 0;
+    border-radius: 30px;
+    font-size: 20px;
+}
+
+form input[type=text], [type=password], [type=number]:focus{ /* TIRA a Borda Padrão de quando Aperta em um Input !! */
+    outline: 0;
+}
+
+form input[type=submit]{
+    width: 100%;
+    height: 35px;
+    cursor: pointer; /* Torna o Botão CLICÁVEL !! */
+    background: #5f7c8a;
+    color: white;
+    border-radius: 30px;
+    font-size: 18px;
+    border: 0;
+    transition: 1s; /* Acrescenta um Delay no Efeito ABAIXO !! */
+}
+
+form input[type=submit]:hover{ /* Efeito de quando Passa o Mouse por Cima muda a Cor !! */
+    background-color: #4a5f6a;
+}
+
+.form-outer{
+    max-width: 300px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-input{
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon{
+    color: #5f7c8a;
+    position: absolute;
+    left: 15px;
+    top: 0;
+    font-size: 25px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    min-width: 20px;
+}
