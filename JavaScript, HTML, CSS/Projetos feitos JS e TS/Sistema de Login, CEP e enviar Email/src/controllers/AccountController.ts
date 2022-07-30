@@ -7,10 +7,10 @@ import { StatusCodes } from "http-status-codes";
 
 export class AccountController{ 
     async createAccount(req: Request, res: Response){ // Salvar CONTA em um e NAME e CPF em OUTRO !! <<
-        const { username, password, email, cpf } = req.body
+        const { username, password, email, cpf, cep } = req.body
 
-        if(!username || !password || !email || !cpf) throw new BadRequestError('Insira os dados corretamente !');
-        if(typeof(username) !== 'string' || typeof(password) !== 'string' || typeof(email) !== 'string' || typeof(cpf) !== 'number') throw new BadRequestError('Formato inválido !');
+        if(!username || !password || !email || !cpf || !cep) throw new BadRequestError('Insira os dados corretamente !');
+        if(typeof(username) !== 'string' || typeof(password) !== 'string' || typeof(email) !== 'string' || typeof(cpf) !== 'number'|| typeof(cep) !== 'number') throw new BadRequestError('Formato inválido !');
 
         const searchCPF = await CPFRepository.findOneBy({cpf})
 
@@ -27,7 +27,8 @@ export class AccountController{
         const saveCreatedAccount = AccountRepository.create({
             username,
             email,
-            password
+            cep,
+            password: encryptPassword
         })
 
         const saveNameAndCPF = CPFRepository.create({

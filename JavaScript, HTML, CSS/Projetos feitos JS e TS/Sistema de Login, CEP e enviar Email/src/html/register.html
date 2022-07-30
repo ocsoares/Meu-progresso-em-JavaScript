@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/src/css/styles.css">
     <link rel="stylesheet" href="/fontawesome-free-6.1.2-web/css/all.min.css">
 
+    <script src="https://kit.fontawesome.com/3421a87806.js"></script> <!-- Script do Font Awesome -->
+    <script src="/build.js"></script> <!-- Script do Javascript utilizado para a API !! --> 
+
     <title>Sistema de login</title>
 </head>
 <body>
@@ -15,26 +18,31 @@
         
         <div class="form-input">
             <span class=icon><i class="fa fa-light fa-user"></i></span>
-            <input type="text" name="username" placeholder="Digite seu usuário">
+            <input type="text" name="username" id="username" placeholder="Digite seu usuário">
         </div>
 
         <div class="form-input">    
             <span class="icon"><i class="fa fa-duotone fa-envelope"></i></i></span> <!-- o <i> DENTRO do <span-->  <!-- Colocar >fa< no começo para Desbugar !! -->
-            <input type="text" name="email" placeholder="Digite seu email">
+            <input type="text" name="email" id="email" placeholder="Digite seu email">
+        </div>
+        
+        <div class="form-input">
+            <span class="icon"><i class="fa fa-light fa-id-card"></i></span>
+            <input type="number" name="cpf" id="cpf" placeholder="Digite seu CPF"/>
+        </div>
+
+        <div class="form-input">
+            <span class="icon"><i class="fa-solid fa-location-dot"></i></span>
+            <input type="number" name="cep" id="cep" placeholder="Digite seu CEP"/>
         </div>
 
         <div class="form-input">
             <span class="icon"><i class="fa fa-duotone fa-key"></i></span>
-            <input type="password" name="password" placeholder="Digite sua senha"/>
+            <input type="password" name="password" id="password" placeholder="Digite sua senha"/>
         </div>
 
-        <div class="form-input">
-            <span class="icon"><i class="fa fa-light fa-id-card"></i></span>
-            <input type="number" name="cpf" placeholder="Digite seu CPF"/>
-        </div>
 
-        <input type="submit" name="send" placeholder="Entrar"/>
+        <input type="submit" name="send" id="send" placeholder="Entrar"/>
     </form>
-    <script src="https://kit.fontawesome.com/3421a87806.js"></script> <!-- Script do Font Awesome -->
 </body>
 </html>

@@ -8,7 +8,12 @@ import { errorMiddleware } from './middlewares/error.middleware';
 import checkStatusRoute from './routes/check-status.route';
 import crudRoute from './routes/crud.route';
 
-AppDataSource.initialize().then(() => { // POR ALGUM MOTIVO o Erro ainda está sendo Imprimido no console e NÃO no Thunder !! << 
+// IMPORTANTE: Para Compilar de .ts para .js Usando Babel usei o comando:
+// 1 - npm build (DEPOIS ARRUMAR MAIS),
+// 2 - browserify .\testeeee\script-html.js -o build.js (DEPOIS ARRUMAR MAIS e Colocar Watch igual no nodemon !!!!)
+
+
+AppDataSource.initialize().then(() => {
     const server = express();
     
     const host = 'http://localhost';
