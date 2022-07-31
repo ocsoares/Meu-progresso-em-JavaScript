@@ -48,7 +48,7 @@ form input[type=text], [type=password], [type=number]:focus{ /* TIRA a Borda Pad
     outline: 0;
 }
 
-form input[type=submit]{
+form input[type=submit], button{
     width: 100%;
     height: 35px;
     cursor: pointer; /* Torna o Botão CLICÁVEL !! */
@@ -60,7 +60,7 @@ form input[type=submit]{
     transition: 1s; /* Acrescenta um Delay no Efeito ABAIXO !! */
 }
 
-form input[type=submit]:hover{ /* Efeito de quando Passa o Mouse por Cima muda a Cor !! */
+form input[type=submit], button:hover{ /* Efeito de quando Passa o Mouse por Cima muda a Cor !! */
     background-color: #4a5f6a;
 }
 

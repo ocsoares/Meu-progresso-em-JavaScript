@@ -10,7 +10,8 @@
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/database.ts migration:generate ./src/database/src/migration/default",
     "migration:run": "typeorm-ts-node-commonjs -d ./src/database.ts migration:run",
     "madge": "madge --circular --extensions ts ./src/database/src/entity",
-    "build": "babel src/script-html --extensions \".ts\" --out-dir testeeee"
+    "build": "nodemon --exec babel src/script-html --extensions \".ts\" --out-dir /dist/script-html",
+    "browserify:run": "browserify ./dist/script-html/script-html.js -o dist/build/build.js"
   },
   "keywords": [],
   "author": "",
