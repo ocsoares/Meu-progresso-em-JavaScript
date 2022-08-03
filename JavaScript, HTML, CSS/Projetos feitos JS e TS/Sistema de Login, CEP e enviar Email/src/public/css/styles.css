@@ -34,7 +34,7 @@ form h3{
     font-size: 33px;
 }
 
-form input[type=text], [type=password], [type=number] {
+form input[type=text], [type=password], [type=number], [type=tel] {
     width: 100%;
     height: 45px;
     border: 1px solid #ccc;
@@ -44,7 +44,7 @@ form input[type=text], [type=password], [type=number] {
     font-size: 20px;
 }
 
-form input[type=text], [type=password], [type=number]:focus{ /* TIRA a Borda Padrão de quando Aperta em um Input !! */
+form input[type=text], [type=password], [type=number], [type=tel]:focus{ /* TIRA a Borda Padrão de quando Aperta em um Input !! */
     outline: 0;
 }
 

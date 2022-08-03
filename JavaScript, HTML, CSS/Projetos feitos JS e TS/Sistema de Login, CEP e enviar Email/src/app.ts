@@ -2,7 +2,7 @@
 // -cando "types": ["node"] !! <<
 
 import 'dotenv/config'
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import { AppDataSource } from './database';
 import { errorMiddleware } from './middlewares/error.middleware';
 import checkStatusRoute from './routes/check-status.route';
@@ -27,6 +27,9 @@ import cors from 'cors'
 
 // Depois procurar sobre render e views (Nodejs) !! <<
 
+// IMPORTANTE: Pelo o que eu entendi, PODE usar o Controlador de CRUD na Rota HTML, desde que os INPUT's do HTML tenha o MESMO id/name Especi-
+// -ficados no Banco de Dados, e com ATENÇÃO as Verificações do HTML e do .ts !!!!! <<
+
 AppDataSource.initialize().then(() => {
     const server = express();
     
@@ -42,11 +45,11 @@ AppDataSource.initialize().then(() => {
     server.use(express.static(__dirname + '/fontawesome-free-6.1.2-web/')) // CSS do Diretório: /fontawesome-free-6.1.2-web/css/all.min.css"
     server.use(express.static(__dirname + '/dist'))
     
-    server.use(checkStatusRoute);
-    server.use(crudRoute);
     server.use(htmlPageRoute);
+    server.use(checkStatusRoute);
+    // server.use(crudRoute); POR ENQUANTO vou deixar isso Comentado, porque irei mexer APENAS com a Rota de HTML !! <<
 
-    server.use(errorMiddleware);
+    // server.use(errorMiddleware);
 
     return server.listen(port, () => {
         console.log(`Servidor online na rota: ${host}:${port} !`);

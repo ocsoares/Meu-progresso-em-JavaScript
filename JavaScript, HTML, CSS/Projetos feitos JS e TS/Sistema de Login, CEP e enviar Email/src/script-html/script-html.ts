@@ -11,12 +11,29 @@ import axios from "axios";
 // Para acessar as Promise {<pending>}, USAR o await ou o .then(...)  !! <<
 
 const sendInputButton = document.getElementById('send');
-const getCEPID = document.getElementById('cep') as HTMLInputElement; // COLOCAR isso para Permitir o uso de .value e afins !! <<
-
+const getCEP = document.getElementById('cep') as HTMLInputElement; // COLOCAR isso para Permitir o uso de .value e afins (InputElement pq é um Input, óbvio...) !! <<
 const stringElement = document.getElementById('register') as HTMLElement;
+const getCPF = document.getElementById('cpf') as HTMLInputElement;
 
+const verificationsCPF = getCPF.addEventListener('keypress', () => {
+    const lengthCPF = getCPF.value.length + 1
+    console.log(lengthCPF);
+
+    if(lengthCPF === 4 || lengthCPF === 8){
+         getCPF.value += '.'
+    }
+
+    else if(lengthCPF === 12){
+        getCPF.value += '-'
+    }
+
+    console.log(getCPF.value)
+    console.log(typeof(getCPF));
+})
+
+    // Axios
 const runAxios = () => {
-    const getCEPValue = getCEPID.value
+    const getCEPValue = getCEP.value
     console.log(getCEPValue);
 
     const url = `https://viacep.com.br/ws/${getCEPValue}/json`;
@@ -28,24 +45,22 @@ const runAxios = () => {
             console.log('Testando do axios:', getAllData);   
             
             const checkErrorAPI = getAllData.hasOwnProperty('erro') // NESSE CASO, se o CEP for Inválido, retorna um Objeto com Erro, então essa Função Verifica se TEM essa Propriedade !! <<
-            console.log('checkErrorAPI:', checkErrorAPI);
 
             const { bairro, cep, ddd } = getAllData
             
-            if(checkErrorAPI) return stringElement.innerHTML = '<h3>Dados incorretos !</h3>'       
+            if(checkErrorAPI) return stringElement.innerHTML = '<h3>Dados incorretos !</h3>' // ACHO que NÃO precisa disso, por vou Manipular o HTML !! <<  
             
-            stringElement.innerHTML = '<h3>Registrado !</h3>'
+            stringElement.innerHTML = '<h3>Registrado !</h3>' // ACHO que NÃO precisa disso, por vou Manipular o HTML !! <<
             
-            console.log('Teste LEWA:', bairro, cep, ddd);
+            console.log('Retorno SEM Objeto:', bairro, cep, ddd);
         })
         .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
 }
 
-
-// DEU CERTO, MAS Arrumar esses Códigos  !!! 
-const pressEnter = () =>  getCEPID?.addEventListener('keypress', anykey => {
+const pressEnter = () =>  getCEP?.addEventListener('keypress', anykey => {
     if(anykey.key === 'Enter'){
-        runAxios()
+        anykey.preventDefault(); // Adicionei isso porque um Input Focado quando RECEBE Enter ou Espaço ACIONA um Clique AUTOMATICAMENTE, e Com essa Função isso é Impedido !! <<
+        runAxios();
     }
 })
 
@@ -53,19 +68,6 @@ const clickButton = () => sendInputButton?.addEventListener('click', clicked => 
     runAxios();
 })
 
+    // Chamando essas Funções
 pressEnter()
 clickButton()
-
-// const cep = 11608545;
-
-// const url = `https://viacep.com.br/ws/${cep}/json`;
-
-// const getCPF = () =>{
-//     axios.get(url)
-//         .then(res => {
-//             console.log(res)
-//         })
-//         .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
-// }
-
-// getCPF()

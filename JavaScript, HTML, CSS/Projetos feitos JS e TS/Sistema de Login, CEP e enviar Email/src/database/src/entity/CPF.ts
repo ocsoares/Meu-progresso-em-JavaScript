@@ -8,6 +8,6 @@ export class CPF{
     @Column({type: 'text', nullable: false})
     name: string
 
-    @Column({nullable: false})
-    cpf: number
+    @Column({type: 'text', nullable: false})
+    cpf: string
 }

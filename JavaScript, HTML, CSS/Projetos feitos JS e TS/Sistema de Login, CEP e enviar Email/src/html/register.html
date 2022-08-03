@@ -12,7 +12,7 @@
     <title>Sistema de login</title>
 </head>
 <body>
-    <form action=".">
+    <form method="post">
         <h3 id="register">Registrar</h3>
         
         <div class="form-input">
@@ -27,12 +27,13 @@
         
         <div class="form-input">
             <span class="icon"><i class="fa fa-light fa-id-card"></i></span>
-            <input type="number" name="cpf" id="cpf" placeholder="Digite seu CPF"/>
+            <input type="text" name="cpf" id="cpf" placeholder="Digite seu CPF" minlength="14" maxlength="14" required/>
+            <!-- <input type="number" name="cep" id="cep" placeholder="Digite seu CEP" required/> O type number NÃO tem min/max length, ele tem min/max !! -->
         </div>
 
         <div class="form-input">
             <span class="icon"><i class="fa-solid fa-location-dot"></i></span>
-            <input type="number" name="cep" max="8" id="cep" placeholder="Digite seu CEP" required/> <!-- maxlength = 8 pq é CEP, óbvio... -->
+            <input type="number" name="cep" id="cep" placeholder="Digite seu CEP" minlength="8" required/>
         </div>
 
         <div class="form-input">
@@ -40,7 +41,7 @@
             <input required="required" type="password" name="password" id="password" placeholder="Digite sua senha"/>
         </div>
 
-        <button type="button" id="send">Entrar</button>
+        <button type="submit" id="send">Entrar</button> <!-- Para poder colocar Verificações no HTML, como 'max', 'min' etc o Enviar TEM que SER type="submit" !! << -->
         
     </form>
 
