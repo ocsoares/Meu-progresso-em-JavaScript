@@ -32,16 +32,17 @@ form h3{
     color: #5f7c8a;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 33px;
+    margin-bottom: 20px;
 }
 
-form input[type=text], [type=password], [type=number], [type=tel] {
+form input[type=text], [type=password], [type=number], [type=tel]{
     width: 100%;
     height: 45px;
     border: 1px solid #ccc;
     padding-left: 60px;
     margin: 10px 0;
     border-radius: 30px;
-    font-size: 20px;
+    font-size: 17px;
 }
 
 form input[type=text], [type=password], [type=number], [type=tel]:focus{ /* TIRA a Borda Padrão de quando Aperta em um Input !! */
@@ -58,6 +59,7 @@ form input[type=submit], button{
     font-size: 18px;
     border: 0;
     transition: 1s; /* Acrescenta um Delay no Efeito ABAIXO !! */
+    margin-top: 10px;
 }
 
 form input[type=submit], button:hover{ /* Efeito de quando Passa o Mouse por Cima muda a Cor !! */
@@ -78,6 +80,7 @@ form input[type=submit], button:hover{ /* Efeito de quando Passa o Mouse por Cim
     width: 100%;
     align-items: center;
     justify-content: center;
+    padding: 8px;
 }
 
 .icon{
@@ -92,4 +95,78 @@ form input[type=submit], button:hover{ /* Efeito de quando Passa o Mouse por Cim
     justify-content: center;
     padding: 10px;
     min-width: 20px;
+}
+
+
+.form-input label{
+    position: absolute;
+    display: inline-block;
+    margin-bottom: 5px;
+    left: 15px;
+    font-size: 20px;
+    margin-bottom: 70px; 
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.form-input small{
+    position: absolute;
+    margin-top: 70px;
+    visibility: hidden;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#password-confirmation{
+    margin-top: 6px;
+}
+
+.small-login{
+    right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    visibility: hidden;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.icon-check-input{
+    color: red;
+    position: absolute;
+    top: 0px;
+    right: 15px;
+    font-size: 25px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+/* Estilizando o Error ou Success !! */
+
+/* Bordas  */
+.form-input.success input{
+    border-color: #2eec71;
+}
+
+.form-input.error input{
+    border-color: #e74c3c;
+}
+
+/* Icons */
+.form-input.success i.fa-check-circle{ /* Dentro da Borda selecionada, pega um Determinado Icon e Customiza (Borda + i + Classe do Icon !! SEM a Palavra INCIAL (ex: fas + resto...) !! */
+    color: #2eec71;
+    visibility: visible;
+}
+
+.form-input.error i.fa-exclamation-circle{
+    position: fixed; /* Position fixed para PODER ALTERAR a Posição do Icon !! << */
+    color: #e74c3c;
+    visibility: visible;
+}
+
+/* Mensagem de Erro - Óbviamente NÃO precisa de uma Mensagem para success !! << */
+.form-input.error small{
+    visibility: visible;
+    color: #e74c3c;
 }

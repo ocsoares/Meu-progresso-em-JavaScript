@@ -15,30 +15,71 @@
     <form method="post">
         <h3 id="register">Registrar</h3>
         
-        <div class="form-input">
+        <div class="form-input error">
             <span class=icon><i class="fa fa-light fa-user"></i></span>
+            <label>Nome de usuário</label>
             <input type="text" name="username" id="username" placeholder="Digite seu usuário">
+            <small>Usuário inválido !</small>
+            <span class="icon-check-input">
+                <i class="fas fa-exclamation-circle"></i>
+                <i class="fas fa-check-circle"></i>
+            </span>
         </div>
 
-        <div class="form-input">    
+        <div class="form-input success">    
             <span class="icon"><i class="fa fa-duotone fa-envelope"></i></i></span> <!-- o <i> DENTRO do <span-->  <!-- Colocar >fa< no começo para Desbugar !! -->
+            <label>Email</label>
             <input type="text" name="email" id="email" placeholder="Digite seu email">
+            <small>Mensagem de erro</small>
+            <span class="icon-check-input">
+                <i class="fas fa-exclamation-circle"></i>
+                <i class="fas fa-check-circle"></i>
+            </span>
         </div>
         
         <div class="form-input">
             <span class="icon"><i class="fa fa-light fa-id-card"></i></span>
+            <label>CPF</label>
             <input type="text" name="cpf" id="cpf" placeholder="Digite seu CPF" minlength="14" maxlength="14" required/>
             <!-- <input type="number" name="cep" id="cep" placeholder="Digite seu CEP" required/> O type number NÃO tem min/max length, ele tem min/max !! -->
+            <small>Mensagem de erro</small>
+            <span class="icon-check-input">
+                <i class="fas fa-exclamation-circle"></i>
+                <i class="fas fa-check-circle"></i>
+            </span>
         </div>
 
         <div class="form-input">
             <span class="icon"><i class="fa-solid fa-location-dot"></i></span>
+            <label>CEP</label>
             <input type="number" name="cep" id="cep" placeholder="Digite seu CEP" minlength="8" required/>
+            <small>Mensagem de erro</small>
+            <span class="icon-check-input">
+                <i class="fas fa-exclamation-circle"></i>
+                <i class="fas fa-check-circle"></i>
+            </span>
         </div>
 
         <div class="form-input">
             <span class="icon"><i class="fa fa-duotone fa-key"></i></span>
+            <label>Senha</label>
             <input required="required" type="password" name="password" id="password" placeholder="Digite sua senha"/>
+            <small>Mensagem de erro</small>
+            <span class="icon-check-input">
+                <i class="fas fa-exclamation-circle"></i>
+                <i class="fas fa-check-circle"></i>
+            </span>
+        </div>
+
+        <div class="form-input" id="password-confirmation">
+            <span class="icon"><i class="fa fa-duotone fa-key"></i></span>
+            <label>Confirme sua senha</label>
+            <input required="required" type="password" name="password-confirmation" id="password-confirmation" placeholder="Confirme sua senha"/>
+            <small>Mensagem de erro</small>
+            <span class="icon-check-input">
+                <i class="fas fa-exclamation-circle"></i>
+                <i class="fas fa-check-circle"></i>
+            </span>
         </div>
 
         <button type="submit" id="send">Entrar</button> <!-- Para poder colocar Verificações no HTML, como 'max', 'min' etc o Enviar TEM que SER type="submit" !! << -->

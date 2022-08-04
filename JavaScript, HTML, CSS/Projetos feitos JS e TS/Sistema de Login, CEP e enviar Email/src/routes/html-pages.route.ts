@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Application, Request, Response, Router } from "express";
 import path from "path";
 import session from 'express-session'
 import bodyParser from "body-parser";
@@ -12,31 +12,31 @@ const loggedHTML = path.join(__dirname, '/src/html/logado.html');
 const htmlPageRoute = Router();
 
 htmlPageRoute.use(session({ // Permite CRIAR uma Sessão para um Usuário !! <<
-    secret: process.env.SESSION_SECRET as string,
-    resave: true,
-    saveUninitialized: true
+    secret: process.env.SESSION_SECRET as string, // Chave para Autenticar a session !! <<
+    resave: true, // Coloquei assim para Evitar um Erro << 
+    saveUninitialized: true // Coloquei assim para Evitar um Erro << 
 }))
+
+// IMPORTANTE: Para Autenticação, usar POST ao invés de GET por + Segurança, um desses Motivos são que com GET os Dados do Input ficam ex-
+// -postos na URL !! <<
 
 htmlPageRoute.use(bodyParser.urlencoded({extended: true})) // Permite pegar o req.body do Input do Usuário !! <<
 
 htmlPageRoute.get('/register', (req: Request, res: Response) => { // ACHO que Está dando erro de CORS porque a API que estou usando (CEP) dá Er-
-    res.sendFile(registerHTML);                                     // -ro quando NÃO digita os 8 Números de um CEP, caso Digite 8 Números MAS de al-
-    console.log('acessado...')                                    // -gum CEP que NÃO exista, a API RETORNA um Objeto escrito erro !! <<<
+    res.sendFile(registerHTML);                                   // -ro quando NÃO digita os 8 Números de um CEP, caso Digite 8 Números MAS de al-                                   
+                                                                  // -gum CEP que NÃO exista, a API RETORNA um Objeto escrito erro !! <<<
 })
 
-htmlPageRoute.post('/register', new HTMLAccountController().createAccountHTML as any) //(req: Request, res: Response) => {
-    // req.body + Passar o name do HTML de um determinado Input !! <<
-    // Ou também pode pegar normalmente Desestruturando !! <<
+htmlPageRoute.post('/register', new HTMLAccountController().createAccountHTML as any, (req: Request, res: Response) => {
+    res.sendFile(loggedHTML);
+})
 
-//     const { username, email, cpf, cep, password } = req.body
+htmlPageRoute.get('/login', (req: Request, res: Response) => {
+    res.sendFile(loginHTML);
+})
 
-//     console.log('Retorno desestruturado:', username, email, cpf, cep, password);
-
-//     res.sendFile(loggedHTML)
-//     res.json({
-//         message:
-//         username // ....
-//     })
-// })
+htmlPageRoute.post('/login', (req: Request, res: Response) => { // Usar POST para Login por Segurança (pesquisar sobre...) !! <<
+    res.send({message: 'teste...'}) // Criar uma Página HTML para quando Logar com Sucesso !! << 
+})
 
 export default htmlPageRoute;

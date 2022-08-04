@@ -10,12 +10,34 @@ import axios from "axios";
 
 // Para acessar as Promise {<pending>}, USAR o await ou o .then(...)  !! <<
 
-const sendInputButton = document.getElementById('send');
-const getCEP = document.getElementById('cep') as HTMLInputElement; // COLOCAR isso para Permitir o uso de .value e afins (InputElement pq é um Input, óbvio...) !! <<
-const stringElement = document.getElementById('register') as HTMLElement;
+const sendInputButton = document.getElementById('send') as HTMLInputElement; // COLOCAR isso para Permitir o uso de .value e afins (InputElement pq é um Input, óbvio...) !! <<
+const getUsername = document.getElementById('username') as HTMLInputElement;
+const getEmail = document.getElementById('email') as HTMLInputElement;
 const getCPF = document.getElementById('cpf') as HTMLInputElement;
+const getCEP = document.getElementById('cep') as HTMLInputElement;
+const getPassword = document.getElementById('password') as HTMLInputElement;
+const getConfirmationPassword = document.getElementById('password-confirmation') as HTMLInputElement;
 
-const verificationsCPF = getCPF.addEventListener('keypress', () => {
+const stringElement = document.getElementById('register') as HTMLElement;
+
+const setErrorHTML = (input: any, message: string) => {
+    const formInput = input.parentElement // Pega a Classe PAI (HTML) do Input Especificado !! <<
+}
+
+const checkInputs = () => {
+    const usernameValue = getUsername.value
+    const emailValue = getEmail.value
+    const CPFValue = getCPF.value
+    const CEPValue = getCEP.value
+    const passwordValue = getPassword.value
+    const confirmationPasswordValue = getConfirmationPassword.value
+
+    if(usernameValue === ''){
+        setErrorHTML(usernameValue, '')
+    }
+}
+
+getCPF.addEventListener('keypress', () => {
     const lengthCPF = getCPF.value.length + 1
     console.log(lengthCPF);
 
@@ -49,9 +71,7 @@ const runAxios = () => {
             const { bairro, cep, ddd } = getAllData
             
             if(checkErrorAPI) return stringElement.innerHTML = '<h3>Dados incorretos !</h3>' // ACHO que NÃO precisa disso, por vou Manipular o HTML !! <<  
-            
-            stringElement.innerHTML = '<h3>Registrado !</h3>' // ACHO que NÃO precisa disso, por vou Manipular o HTML !! <<
-            
+                        
             console.log('Retorno SEM Objeto:', bairro, cep, ddd);
         })
         .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
