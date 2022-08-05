@@ -12,13 +12,13 @@
     <title>Sistema de login</title>
 </head>
 <body>
-    <form method="post">
+    <form id="form" method="post">
         <h3 id="register">Registrar</h3>
         
-        <div class="form-input error">
+        <div class="form-input">
             <span class=icon><i class="fa fa-light fa-user"></i></span>
             <label>Nome de usuário</label>
-            <input type="text" name="username" id="username" placeholder="Digite seu usuário">
+            <input type="text" name="username" id="username" placeholder="Digite seu usuário" required>
             <small>Usuário inválido !</small>
             <span class="icon-check-input">
                 <i class="fas fa-exclamation-circle"></i>
@@ -26,10 +26,10 @@
             </span>
         </div>
 
-        <div class="form-input success">    
+        <div class="form-input">    
             <span class="icon"><i class="fa fa-duotone fa-envelope"></i></i></span> <!-- o <i> DENTRO do <span-->  <!-- Colocar >fa< no começo para Desbugar !! -->
             <label>Email</label>
-            <input type="text" name="email" id="email" placeholder="Digite seu email">
+            <input type="text" name="email" id="email" placeholder="Digite seu email" required>
             <small>Mensagem de erro</small>
             <span class="icon-check-input">
                 <i class="fas fa-exclamation-circle"></i>
@@ -63,7 +63,7 @@
         <div class="form-input">
             <span class="icon"><i class="fa fa-duotone fa-key"></i></span>
             <label>Senha</label>
-            <input required="required" type="password" name="password" id="password" placeholder="Digite sua senha"/>
+            <input type="password" name="password" id="password" placeholder="Digite sua senha" required/>
             <small>Mensagem de erro</small>
             <span class="icon-check-input">
                 <i class="fas fa-exclamation-circle"></i>
@@ -74,7 +74,7 @@
         <div class="form-input" id="password-confirmation">
             <span class="icon"><i class="fa fa-duotone fa-key"></i></span>
             <label>Confirme sua senha</label>
-            <input required="required" type="password" name="password-confirmation" id="password-confirmation" placeholder="Confirme sua senha"/>
+            <input type="password" name="password-confirmation" id="password-confirmation" placeholder="Confirme sua senha" required/>
             <small>Mensagem de erro</small>
             <span class="icon-check-input">
                 <i class="fas fa-exclamation-circle"></i>
