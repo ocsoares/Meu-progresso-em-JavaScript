@@ -46,44 +46,174 @@ const setErrorHTML = (input: any, message: string) => {
     formInput.className = 'form-input error'
 }
 
+    // ESSE AQUI Por algum motivo, NÃO Funcionou !! <<  <<<
 // Verifica se o Email é Válido com esse Regex !! <<
     //  OBS: Se for VÁLIDO, Retorna TRUE !! <<
-    const regexEmail = (email: string) => {
-        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          email
-        );
-      }
+    // const regexEmail = (email: any) => {
+    //     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    //       email);
+    //   }
 
+const backspaceGetUsername = () => getUsername.addEventListener('keyup', anykey => {
+    let usernameLenght = getUsername.value.length
+
+    if (usernameLenght >= 0 && usernameLenght <= 7 && anykey.key === 'Backspace') {
+        setErrorHTML(getUsername, 'Usuário inválido !');
+    }
+})
+    
+const validateEmail = (mail: any) => {
+    return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail));
+}
+
+const backspaceEmail = () => getEmail.addEventListener('keyup', anykey => {
+    let emailLenght = getEmail.value.length
+
+    if(anykey.key === 'Backspace' && !validateEmail(getEmail)){
+        setErrorHTML(getEmail, 'Email inválido !');
+        emailLenght -= 1;        
+    }
+})
+
+const backspaceCEP = () => getCEP.addEventListener('keyup', anykey => {
+    let CEPLenght = getCEP.value.length;
+
+    if(anykey.key === 'Backspace'){
+        setErrorHTML(getCEP, 'CEP inválido !');
+        CEPLenght -= 1;
+    }
+})
+
+const backspacePassword = () => getPassword.addEventListener('keyup', anykey => {
+    let passwordLenght = getPassword.value.length
+
+    if(anykey.key === 'Backspace'){
+        setErrorHTML(getPassword, 'Senha inválida !');
+        passwordLenght -= 1;
+    }
+})
+
+        // Depois de verificiar TUDO, tentar fazer um Esquema de SÓ enviar quando TUDO estiver Certo(Verde) com uma Condição, tipo, isValid = true !! <<
 const checkInputs = () => {
-    const usernameValue = getUsername.value
-    const emailValue = getEmail.value
-    const CPFValue = getCPF.value
-    const CEPValue = getCEP.value
-    const passwordValue = getPassword.value
-    const confirmationPasswordValue = getConfirmationPassword.value
 
+    backspaceGetUsername();
     
     getUsername.addEventListener('keypress', anykey => {
-        // O usernameValue.lenght NÃO FUNCIONA porque ele é const, ÓBVIO !!!! <<
+        // O const usernameValue.lenght NÃO FUNCIONA porque ele é const, ÓBVIO !!!! <<
 
-        console.log('Não funciona:', usernameValue.length);
+        const keyValue = anykey.key;
 
-        let teste = getUsername.value.length;
-        console.log('Provando que funciona:', teste);
-        
-        
+        const usernameRegex = /[a-zA-Z\u00C0-\u00FF ]+/i // Esse Regex só Permite Letras de a-z A-Z, Espaço e Acentuação nos Caracteres (ó, ã, ...) !! <<
+
+        let usernameLenght = getUsername.value.length;
+
+        if(keyValue === 'Enter'){ // Retira o Espaço Automático do 'Enter' !! <<
+            usernameLenght -= 1;
+            if(usernameLenght <= 5){ // Se o Lenght for MENOR que Determinada Condição, BLOQUEIA o ENTER !! <<
+                anykey.preventDefault();
+            }
+        }
+
+        if(!keyValue.toString().match(usernameRegex)){
+            anykey.preventDefault();
+            usernameLenght -= 1;
+        }
+        if(usernameLenght <= 5){
+            setErrorHTML(getUsername, 'Usuário inválido !');
+        }
+        else{
+            setSuccessHTML(getUsername);
+        }
+
     })
 
-    console.log('TAMANHO EMAIL:', emailValue.length);
-    console.log('email:', emailValue);
+        // NÃO ficou Totalmente Validado !! <<
+    getEmail.addEventListener('keypress', anykey => {
 
-    if(!regexEmail(emailValue)){
-        setErrorHTML(getEmail, 'Inválido !');
-        console.log(usernameValue);
-    }
-    else{
-        setSuccessHTML(getEmail);
-    }
+        backspaceEmail();
+
+        let emailLenght = getEmail.value.length
+
+        const keyValue = anykey.key
+
+        console.log('ANTES:', emailLenght);
+        
+        if(keyValue === 'Enter'){
+            emailLenght -= 1;
+            if(!validateEmail(getEmail.value)){
+                anykey.preventDefault();
+            }
+        }
+
+        if(keyValue === ' '){
+            anykey.preventDefault();
+            emailLenght -= 1;
+        }
+        
+        if(!validateEmail(getEmail.value)){
+            setErrorHTML(getEmail, 'Email inválido !');
+        }
+        else{
+            setSuccessHTML(getEmail);
+        }
+    })
+
+    getCEP.addEventListener('keypress', anykey => {
+
+        backspaceCEP();
+
+        let CEPValue = getCEP.value
+        let CEPLenght = getCEP.value.length
+
+        const keyValue = anykey.key;
+
+        const patterNumbers = /[0-9]/; // APENAS Números !! <<
+        
+        if(keyValue === 'Enter'){} // Fiz isso para Liberar o Enter para PULAR LINHA, porque pelo o que eu entendi ele está entre as Letras, e não permiti Aqui !! <<
+
+        if(keyValue === 'Enter'){ // Tira o Espaço Automático do Enter LIBERADO !! << 
+            CEPLenght -= 1;
+        }
+
+        else if(!keyValue.match(patterNumbers)){ // Se NÃO for Números, ELE IMPEDE de Digitar no Input !! (else if para Permitir o Enter ACIMA !!!) <<
+            anykey.preventDefault();
+            CEPLenght -= 1;                     // Pelo o que eu percebi, o preventDefault() nesse caso, deixa o Char Inválido Passar UMA VEZ, então Aumenta a lenght do 
+                                                // CPF +1 UMA VEZ, então com esse -1 ele também DIMINUI UMA VEZ !! <<  
+        }
+
+        // Por algum motivo, o CEPValue NÃO funcionou !! <<
+        if(CEPLenght === 5) {
+            getCEP.value += '-'
+        }
+
+        if(CEPLenght === 8 || CEPLenght === 9){
+            setSuccessHTML(getCEP);
+        }
+        else{
+            setErrorHTML(getCEP, 'CEP inválido !');
+        }
+    })
+
+    getPassword.addEventListener('keypress', anykey => {
+
+        backspacePassword();
+
+        let passwordLenght = getPassword.value.length;
+
+        console.log('Lenght:', passwordLenght)
+
+        if(passwordLenght < 6){
+            setErrorHTML(getPassword, 'Senha inválida !');
+        }
+        else{
+            setSuccessHTML(getPassword);
+        }
+    })
+
+        // Tentar acessar o lenght do Password normal NESSA ConfirmationPassword !! <<<
+    getConfirmationPassword.addEventListener('keypress', anykey => {
+        
+    })
 
     // if(emailValue === ''){
     //     setErrorHTML(getEmail, 'Não é permitido um email vazio !');
@@ -127,8 +257,6 @@ const checkInputs = () => {
     //     console.log('teste...');
     // }
     
-
-
     checkInputs();
 
     // Fiz outra Função porque na do CPF Principal estava OUTRO evento, que se fosse utilizado ESSE, bugaria TUDO !! <<
@@ -150,12 +278,17 @@ getCPF.addEventListener('keypress', anykey => {
 
     // const patternLetters = '[a-zA-Z]';   <-- APENAS Letras !!!
     
-    const patternLetters = '[0-9]'; // APENAS Números !! <<
+    const patternLetters = /[0-9]/;
+
+    if(keyValue === 'Enter'){}
+
+    if(keyValue === 'Enter'){
+        lengthCPF -= 1;
+    }
     
-    if(!keyValue.toString().match(patternLetters)){ // Se NÃO for Números, ELE IMPEDE de Digitar no Input !! <<
+    else if(!keyValue.toString().match(patternLetters)){
         anykey.preventDefault();
-        lengthCPF -= 1; // Pelo o que eu percebi, o preventDefault() nesse caso, deixa o Char Inválido Passar UMA VEZ, então Aumenta a lenght do 
-                        // CPF +1 UMA VEZ, então com esse -1 ele também DIMINUI UMA VEZ !! <<  
+        lengthCPF -= 1;
     }
     
     backspaceGetCPF();
