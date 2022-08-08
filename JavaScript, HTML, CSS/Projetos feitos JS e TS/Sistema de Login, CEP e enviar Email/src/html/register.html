@@ -71,10 +71,10 @@
             </span>
         </div>
 
-        <div class="form-input" id="password-confirmation">
+        <div class="form-input"> <!-- TIREI o id="password-confirmation" porque estava dando UNDEFINED !! << -->
             <span class="icon"><i class="fa fa-duotone fa-key"></i></span>
             <label>Confirme sua senha</label>
-            <input type="password" name="password-confirmation" id="password-confirmation" placeholder="Confirme sua senha" required/>
+            <input type="password" name="passwordConfirmation" id="password-confirmation" placeholder="Confirme sua senha" required/>
             <small>Mensagem de erro</small>
             <span class="icon-check-input">
                 <i class="fas fa-exclamation-circle"></i>
@@ -82,7 +82,7 @@
             </span>
         </div>
 
-        <button type="submit" id="send">Entrar</button> <!-- Para poder colocar Verificações no HTML, como 'max', 'min' etc o Enviar TEM que SER type="submit" !! << -->
+        <button type="submit" id="send">Registrar</button> <!-- Para poder colocar Verificações no HTML, como 'max', 'min' etc o Enviar TEM que SER type="submit" !! << -->
         
     </form>
 

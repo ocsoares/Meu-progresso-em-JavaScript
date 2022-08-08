@@ -12,6 +12,8 @@ import axios from "axios";
 
 // IMPORTANTE: Depois que Terminar, arrumar um jeito de Separar algumas Funções em Módulos !! <<
 
+// >>>> IMPORTANTE: Ainda falta Verificar para APENAS ENVIAR o Formulário se TUDO estiver VERDE (Válido), fazer isso por ÚLTIMO !! <<<<
+
 const sendInputButton = document.getElementById('send') as HTMLInputElement; // COLOCAR isso para Permitir o uso de .value e afins (InputElement pq é um Input, óbvio...) !! <<
 const getUsername = document.getElementById('username') as HTMLInputElement;
 const getEmail = document.getElementById('email') as HTMLInputElement;
@@ -87,9 +89,25 @@ const backspaceCEP = () => getCEP.addEventListener('keyup', anykey => {
 const backspacePassword = () => getPassword.addEventListener('keyup', anykey => {
     let passwordLenght = getPassword.value.length
 
-    if(anykey.key === 'Backspace'){
+    if(anykey.key === 'Backspace' && passwordLenght < 7){
         setErrorHTML(getPassword, 'Senha inválida !');
         passwordLenght -= 1;
+    }
+})
+
+const blockEnterConfirmPassword = () => getConfirmationPassword.addEventListener('keypress', anykey => {
+
+    let lenghtConfirmPassword = getConfirmationPassword.value.length
+
+    let valueConfirmPassword = getConfirmationPassword.value
+    let valuePassword = getPassword.value
+
+    if(anykey.key === 'Enter' && lenghtConfirmPassword < 7){
+        anykey.preventDefault();
+    }
+
+    if(anykey.key === 'Enter' && valueConfirmPassword !== valuePassword){
+        anykey.preventDefault();
     }
 })
 
@@ -200,6 +218,7 @@ const checkInputs = () => {
 
         let passwordLenght = getPassword.value.length;
 
+        console.log('Value:', getPassword.value);
         console.log('Lenght:', passwordLenght)
 
         if(passwordLenght < 6){
@@ -211,36 +230,51 @@ const checkInputs = () => {
     })
 
         // Tentar acessar o lenght do Password normal NESSA ConfirmationPassword !! <<<
-    getConfirmationPassword.addEventListener('keypress', anykey => {
-        
+    getConfirmationPassword.addEventListener('keyup', anykey => { // Por algum motivo, o keypress NÃO funcinou, sempre Tirava UM CHARACTER, o keyup DEU CERTO !! <<
+
+            blockEnterConfirmPassword();
+
+            let finalPassword = getPassword.value
+            let finalConfirmPassword = getConfirmationPassword.value
+
+            console.log('Final pass:', finalPassword);
+            console.log('Final confirmPass:', finalConfirmPassword);
+
+            if(finalConfirmPassword.length < 7){
+                setErrorHTML(getConfirmationPassword, 'Senha inválida !');
+            }
+
+            else if(finalConfirmPassword === finalPassword){
+                setSuccessHTML(getConfirmationPassword);
+            }
+            
+            else{
+                setErrorHTML(getConfirmationPassword,'As senhas não coincidem !');
+            }
     })
-
-    // if(emailValue === ''){
-    //     setErrorHTML(getEmail, 'Não é permitido um email vazio !');
-    // }
-    // else if(!regexEmail(emailValue)){
-    //     setErrorHTML(getEmail, 'Email inválido !');
-    // }
-    // else{
-    //     setSuccessHTML(emailValue);
-    // }
-
-    // if(!emailValue){
-    //     setSuccessHTML(getEmail);
-    // }
-
-    // if(!CEPValue){
-    //     setSuccessHTML(getCEP);
-    // }
-
-    // if(!passwordValue){
-    //     setSuccessHTML(getPassword);
-    // }
-
-    // if(!confirmationPasswordValue){
-    //     setSuccessHTML(getConfirmationPassword);
-    // }
 }
+
+    checkInputs();
+
+    // Função para DESABILITAR o CONTROL + V (Colar = paste) e Movimentar o Valor de um Input para OUTRO Input (drop) !! << 
+const disablePasteAndDrop = (HTMLInput: HTMLInputElement) => {
+    
+        HTMLInput.addEventListener('paste', anykey => {
+            anykey.preventDefault();
+        })
+    
+        HTMLInput.addEventListener('drop', anykey => {
+            anykey.preventDefault();
+        })
+}
+
+disablePasteAndDrop(getUsername);
+disablePasteAndDrop(getEmail);
+disablePasteAndDrop(getCPF);
+disablePasteAndDrop(getCEP);
+disablePasteAndDrop(getPassword);
+disablePasteAndDrop(getConfirmationPassword);
+
         // Isso aqui faz alguma coisa Quando TODOS as Classes estiverem em uma Condição especificada, MAS por algum Motivo NÃO DEU CERTO !!
         // O getAllFormInput Funciona, como pode ver no console.log, mas o Resto NÃO !! <<
 
@@ -248,16 +282,27 @@ const checkInputs = () => {
     // console.log('Testando getall:', getAllFormInput);
 
     // const checkForm = [...getAllFormInput].every((formInput) => {
-    //     return (formInput.className === 'form-input success');
+    //     if(formInput.className === 'form-input success'){
+    //         return true;
+    //     }
     // })
 
     // console.log('Teste checkForm:', checkForm);
 
     // if(checkForm){
-    //     console.log('teste...');
+    //     console.log('FODASE');
     // }
+
+    // getForm.addEventListener('keypress', teste => {
+    //     if(getEmail.classList.contains('form-input success')){
+    //         console.log('VÁLIDO !');
+    //     }
     
-    checkInputs();
+    //     else{
+    //         console.log('INVÁLIDO !');
+    //     }
+
+    // })
 
     // Fiz outra Função porque na do CPF Principal estava OUTRO evento, que se fosse utilizado ESSE, bugaria TUDO !! <<
 const backspaceGetCPF = () => getCPF.addEventListener('keyup', anykey => {
@@ -311,7 +356,7 @@ getCPF.addEventListener('keypress', anykey => {
 })
 
     // Axios
-const runAxios = () => {
+const runAxios = () => { // DEPOIS ATIVAR e USAR isso <<<
     const getCEPValue = getCEP.value
     console.log(getCEPValue);
 
@@ -333,37 +378,3 @@ const runAxios = () => {
         })
         .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
 }
-
-const pressEnter = () =>  getCEP?.addEventListener('keypress', anykey => {
-    if(anykey.key === 'Enter'){
-        anykey.preventDefault(); // Adicionei isso porque um Input Focado quando RECEBE Enter ou Espaço ACIONA um Clique AUTOMATICAMENTE, e Com essa Função isso é Impedido !! <<
-
-        checkInputs();
-        runAxios();
-    }
-})
-
-const pressEnterSubmit = () => sendInputButton.addEventListener('keypress', anykey => {
-    if(anykey.key === 'Enter'){
-        anykey.preventDefault();
-
-        checkInputs();
-        runAxios();
-
-    }
-})
-
-const clickSubmitButton = () => sendInputButton?.addEventListener('submit', clicked => {
-    clicked.preventDefault();
-
-    checkInputs();
-    runAxios();
-})
-
-    // DE VERDADE desativa o Submit !! <<
-// getForm.addEventListener('submit', anyCommand =>{
-//     anyCommand.preventDefault();
-// })
-
-    // Chamando essas Funções
-// clickSubmitButton();

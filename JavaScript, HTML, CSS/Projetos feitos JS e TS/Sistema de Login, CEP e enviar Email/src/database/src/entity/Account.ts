@@ -11,8 +11,8 @@ export class Account{
     @Column({type: 'text', nullable: false})
     email: string
 
-    @Column({type: 'numeric', nullable: true})
-    cep: number
+    @Column({type: 'text', nullable: false})
+    cep: string
 
     @Column({type: 'text', nullable: false})
     password: string

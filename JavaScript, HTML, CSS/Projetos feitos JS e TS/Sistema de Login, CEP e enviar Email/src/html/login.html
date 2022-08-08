@@ -17,7 +17,7 @@
         <div class="form-input">   
             <span class="icon"><i class="fa fa-duotone fa-envelope"></i></i></span> <!-- o <i> DENTRO do <span-->  <!-- Colocar >fa< no começo para Desbugar !! -->
             <label>Email</label> 
-            <input type="text" name="email" placeholder="Digite seu email">
+            <input type="text" name="email" id="login-email" placeholder="Digite seu email">
             <span class="icon-check-input">
                 <i class="fas fa-exclamation-circle"></i>
             </span>
@@ -26,7 +26,7 @@
         <div class="form-input">
             <span class="icon"><i class="fa fa-duotone fa-key"></i></span>
             <label>Senha</label>
-            <input type="password" name="password" placeholder="Digite sua senha"/>
+            <input type="password" name="password" id="login-password" placeholder="Digite sua senha"/>
             <small class="small-login">Usuário ou senha inválidos !</small>
             <span class="icon-check-input">
                 <i class="fas fa-exclamation-circle"></i>
@@ -36,5 +36,6 @@
         <input type="submit" name="send" placeholder="Entrar"/>
     </form>
     <script src="https://kit.fontawesome.com/3421a87806.js"></script> <!-- Script do Font Awesome -->
+    <script src="build/build2.js"></script>
 </body>
 </html>

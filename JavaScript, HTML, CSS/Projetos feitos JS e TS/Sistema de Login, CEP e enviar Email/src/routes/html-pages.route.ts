@@ -1,4 +1,4 @@
-import { Application, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import path from "path";
 import session from 'express-session'
 import bodyParser from "body-parser";
@@ -6,6 +6,7 @@ import { HTMLAccountController } from "../controllers/HTMLAccountController";
 
 const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
 const registerHTML = path.join(__dirname, '/src/html/register.html'); // Caminho do Arquivo HTML usado !! << 
+const registerSuccessufullHTML = path.join(__dirname, '/src/html/registerSuccessufull.html'); 
 const loginHTML = path.join(__dirname, '/src/html/login.html');
 const loggedHTML = path.join(__dirname, '/src/html/logado.html');
 
@@ -28,7 +29,7 @@ htmlPageRoute.get('/register', (req: Request, res: Response) => { // ACHO que Es
 })
 
 htmlPageRoute.post('/register', new HTMLAccountController().createAccountHTML as any, (req: Request, res: Response) => {
-    res.sendFile(loggedHTML);
+    res.sendFile(registerSuccessufullHTML);
 })
 
 htmlPageRoute.get('/login', (req: Request, res: Response) => {
@@ -36,7 +37,7 @@ htmlPageRoute.get('/login', (req: Request, res: Response) => {
 })
 
 htmlPageRoute.post('/login', (req: Request, res: Response) => { // Usar POST para Login por Segurança (pesquisar sobre...) !! <<
-    res.send({message: 'teste...'}) // Criar uma Página HTML para quando Logar com Sucesso !! << 
+    res.sendFile(loggedHTML);
 })
 
 export default htmlPageRoute;

@@ -29,3 +29,10 @@ export class UnauthorizedError extends ApiError{
         this.name = 'ErrorUnauthorized'
     }
 }
+
+export class InternalServerError extends ApiError{
+    constructor(message?: string){
+        super(message, StatusCodes.INTERNAL_SERVER_ERROR);
+        this.name = 'ErrorInternalServer'
+    }
+}
