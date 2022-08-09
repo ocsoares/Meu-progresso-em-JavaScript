@@ -8,9 +8,13 @@ const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
 const registerHTML = path.join(__dirname, '/src/html/register.html'); // Caminho do Arquivo HTML usado !! << 
 const registerSuccessufullHTML = path.join(__dirname, '/src/html/registerSuccessufull.html'); 
 const loginHTML = path.join(__dirname, '/src/html/login.html');
-const loggedHTML = path.join(__dirname, '/src/html/logado.html');
+const loggedHTML = path.join(__dirname, '/src/html/loginSuccessufull.html');
+const homeHTML = path.join(__dirname, '/src/html/home.html');
+const logoutHTML = path.join(__dirname, 'src/html/logout.html');
 
 const htmlPageRoute = Router();
+
+    // >>>> Pesquisar e Implementar JWT na Sessão/Cookie !!!! <<<
 
 htmlPageRoute.use(session({ // Permite CRIAR uma Sessão para um Usuário !! <<
     secret: process.env.SESSION_SECRET as string, // Chave para Autenticar a session !! <<
@@ -23,6 +27,10 @@ htmlPageRoute.use(session({ // Permite CRIAR uma Sessão para um Usuário !! <<
 
 htmlPageRoute.use(bodyParser.urlencoded({extended: true})) // Permite pegar o req.body do Input do Usuário !! <<
 
+htmlPageRoute.get('/', (req: Request, res: Response) => {
+    res.sendFile(homeHTML);
+})
+
 htmlPageRoute.get('/register', (req: Request, res: Response) => { // ACHO que Está dando erro de CORS porque a API que estou usando (CEP) dá Er-
     res.sendFile(registerHTML);                                   // -ro quando NÃO digita os 8 Números de um CEP, caso Digite 8 Números MAS de al-                                   
                                                                   // -gum CEP que NÃO exista, a API RETORNA um Objeto escrito erro !! <<<
@@ -33,11 +41,40 @@ htmlPageRoute.post('/register', new HTMLAccountController().createAccountHTML as
 })
 
 htmlPageRoute.get('/login', (req: Request, res: Response) => {
-    res.sendFile(loginHTML);
+    if(req.session.login){
+        res.redirect('/')
+    }
+    else{
+        res.sendFile(loginHTML);
+    }
+})
+        // >> IMPORTANTE: Mesmo que NÃO utilize o req e o res, TEM que colocar SENÃO (ao menos no .post) DÁ ERRO !! <<
+htmlPageRoute.post('/login', new HTMLAccountController().loginAccountHTML as any, (req: Request, res: Response) => { // Usar POST para Login por Segurança (pesquisar sobre...) !! <<
 })
 
-htmlPageRoute.post('/login', (req: Request, res: Response) => { // Usar POST para Login por Segurança (pesquisar sobre...) !! <<
-    res.sendFile(loggedHTML);
+    // Realmente destrói a Sessão, MAS a Primeira vez nessa Rota dá o erro Internal Server Erro (mas Destrói), a partir da Segunda vai Normalmente !! <<
+htmlPageRoute.get('/logout', (req: Request, res: Response) => {
+    if(req.session.login){
+        req.session.destroy(req.session.login);
+        res.sendFile(logoutHTML);
+    }
+
+    else{
+        res.redirect('/');
+    }
+
+})
+
+
+htmlPageRoute.get('/email', (req: Request, res: Response) => {
+    console.log('Acima:', req.session.login);
+    if(req.session.login){
+        res.json({message: 'EXISTE !', session: req.session.login})
+    }
+    else{
+        res.redirect('/login');
+    }
+
 })
 
 export default htmlPageRoute;

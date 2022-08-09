@@ -1,10 +1,18 @@
 import bodyParser from "body-parser"; // ACHO que NÃO precisa aqui, porque JÁ está sendo Utilizado na Rota !!
 import bcrypt from 'bcrypt';
-import { NextFunction } from "express";
+import { NextFunction, Request, Response} from "express";
 import { BadRequestError, InternalServerError } from "../models/api-error.model";
 import { AccountRepository } from "../repositories/accountRepository";
 import { CPFRepository } from "../repositories/CPFRepository";
+import path from "path";
 
+const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
+const loginHTML = path.join(__dirname, '/src/html/login.html');
+const loggedHTML = path.join(__dirname, '/src/html/loginSuccessufull.html');
+const loginErrorHTML = path.join(__dirname, '/src/html/loginError.html');
+
+// >>> IMPORTANTÍSSIMO: Por algum motivo, tem DOIS Request e Response, um são do Express e o outro ACHO que é do bodyParser (NA ROTA), então NÃO ESTAVA pe-
+// -gando as Configurações do meu express.d.ts Porque Estava com o Request/Response SEM SER O DO Express !! <<<<
 export class HTMLAccountController {
     async createAccountHTML(req: Request, res: Response, next: NextFunction){
         const reqBody = req.body as any
@@ -72,7 +80,47 @@ export class HTMLAccountController {
         // RETORNAR A PÁGINA NA ROTA COM res.sendFile.... AQUI N DÁ !! <<
     }
 
-    async loginAccountHTML(req: Request, res: Response, next: NextFunction){
+    async loginAccountHTML(req: Request, res: Response, next: NextFunction){ // ACABAR ISSO, REDIRECIONAR, FAZER SESSION, API CEP e ENVIAR EMAIL !! <<
+        const reqBody = req.body as any
 
+        const { email, password } = reqBody
+
+        // if(!email || !password) throw new BadRequestError('Inválido !');
+
+        if(!email || !password){
+            console.log('Usuário ou senha vazio !');
+            return res.sendFile(loginErrorHTML);
+        }
+
+        const searchEmail = await AccountRepository.findOneBy({email}) // Procura por TODAS as Informações no Banco de Dados para o EMAIL ESPECIFICADO !! <<
+
+        // if(!searchEmail) throw new BadRequestError('Email vazio !');
+
+        if(!searchEmail){
+            console.log('Email não encontrado !');
+            return res.sendFile(loginErrorHTML);
+        }
+
+        const searchPassword = await bcrypt.compare(password, searchEmail.password as any);
+
+        if(!searchPassword){
+            console.log('Senha incorreta !');
+            return res.sendFile(loginErrorHTML);
+        }
+        
+        const { password:_, ...finalLogin } = searchEmail;
+
+        console.log('PASSOU em tudo !');
+
+        req.user = finalLogin;
+        req.session.login = finalLogin.username
+
+        console.log('req.user:', req.user);
+        console.log('req.session.login:', req.session.login);
+        console.log('req.session.id:', req.session.id);
+
+        res.sendFile(loggedHTML);
+
+        next();
     }
 }

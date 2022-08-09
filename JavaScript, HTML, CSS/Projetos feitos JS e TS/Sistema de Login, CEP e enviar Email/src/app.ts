@@ -49,7 +49,7 @@ AppDataSource.initialize().then(() => {
     server.use(checkStatusRoute);
     // server.use(crudRoute); POR ENQUANTO vou deixar isso Comentado, porque irei mexer APENAS com a Rota de HTML !! <<
 
-    // server.use(errorMiddleware);
+    server.use(errorMiddleware);
 
     return server.listen(port, () => {
         console.log(`Servidor online na rota: ${host}:${port} !`);
