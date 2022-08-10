@@ -5,6 +5,7 @@ import { BadRequestError, InternalServerError } from "../models/api-error.model"
 import { AccountRepository } from "../repositories/accountRepository";
 import { CPFRepository } from "../repositories/CPFRepository";
 import path from "path";
+import jwt from 'jsonwebtoken'
 
 const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
 const loginHTML = path.join(__dirname, '/src/html/login.html');
@@ -13,6 +14,13 @@ const loginErrorHTML = path.join(__dirname, '/src/html/loginError.html');
 
 // >>> IMPORTANTÍSSIMO: Por algum motivo, tem DOIS Request e Response, um são do Express e o outro ACHO que é do bodyParser (NA ROTA), então NÃO ESTAVA pe-
 // -gando as Configurações do meu express.d.ts Porque Estava com o Request/Response SEM SER O DO Express !! <<<<
+
+// Procurar sobre aquele flash (mensagem) para Validar se o CEP existe USANDO a API !! <<<<<<<<<<<<<<
+
+// Checar se o CEP existe com A API no Registro aqui também !! <<
+
+// Fazer uma rota /token depois e mostrar na Tela o JWT do Usuário logado !! <<<
+// Depois do Acima, fazer uma Rota que CHECA o JWT e Retorna algo (fazer esse algo...) !! <<<
 export class HTMLAccountController {
     async createAccountHTML(req: Request, res: Response, next: NextFunction){
         const reqBody = req.body as any
@@ -88,7 +96,6 @@ export class HTMLAccountController {
         // if(!email || !password) throw new BadRequestError('Inválido !');
 
         if(!email || !password){
-            console.log('Usuário ou senha vazio !');
             return res.sendFile(loginErrorHTML);
         }
 
@@ -97,27 +104,25 @@ export class HTMLAccountController {
         // if(!searchEmail) throw new BadRequestError('Email vazio !');
 
         if(!searchEmail){
-            console.log('Email não encontrado !');
             return res.sendFile(loginErrorHTML);
         }
 
         const searchPassword = await bcrypt.compare(password, searchEmail.password as any);
 
         if(!searchPassword){
-            console.log('Senha incorreta !');
             return res.sendFile(loginErrorHTML);
         }
         
         const { password:_, ...finalLogin } = searchEmail;
 
-        console.log('PASSOU em tudo !');
+        req.session.login = finalLogin
 
-        req.user = finalLogin;
-        req.session.login = finalLogin.username
+        const JWT = jwt.sign({id: searchEmail.id}, process.env.JWT_HASH ?? '', {
+            expiresIn: '12h'
+        })
 
-        console.log('req.user:', req.user);
-        console.log('req.session.login:', req.session.login);
-        console.log('req.session.id:', req.session.id);
+        req.jwt = JWT;
+        console.log('Seu JWT é:', req.jwt)
 
         res.sendFile(loggedHTML);
 

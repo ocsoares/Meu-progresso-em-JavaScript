@@ -1,8 +1,9 @@
-import { Request, Response, Router } from "express";
+import { request, Request, response, Response, Router } from "express";
 import path from "path";
 import session from 'express-session'
 import bodyParser from "body-parser";
 import { HTMLAccountController } from "../controllers/HTMLAccountController";
+import { runAxios } from "../scripts/axios-script";
 
 const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
 const registerHTML = path.join(__dirname, '/src/html/register.html'); // Caminho do Arquivo HTML usado !! << 
@@ -65,16 +66,29 @@ htmlPageRoute.get('/logout', (req: Request, res: Response) => {
 
 })
 
-
 htmlPageRoute.get('/email', (req: Request, res: Response) => {
     console.log('Acima:', req.session.login);
     if(req.session.login){
-        res.json({message: 'EXISTE !', session: req.session.login})
+        res.json({message: 'EXISTE !', session: req.session.login});
     }
     else{
         res.redirect('/login');
     }
 
+})
+
+htmlPageRoute.get('/cep', runAxios(), (req: Request, res: Response) => {
+})
+
+htmlPageRoute.get('/token', (req: Request, res: Response) => {
+    console.log('JWT:', req.jwt); // Por algum motivo, FORA do HTMLAccountController (login) ESTÁ dando undefined !! <<
+    if(req.session.login){
+        res.json({Token: `Seu token é: ${req.jwt}`});
+    }
+
+    else{
+        res.redirect('/login');
+    }
 })
 
 export default htmlPageRoute;

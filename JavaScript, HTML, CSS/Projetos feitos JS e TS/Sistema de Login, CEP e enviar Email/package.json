@@ -10,9 +10,9 @@
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/database.ts migration:generate ./src/database/src/migration/default",
     "migration:run": "typeorm-ts-node-commonjs -d ./src/database.ts migration:run",
     "madge": "madge --circular --extensions ts ./src/database/src/entity",
-    "build": "nodemon --exec babel src/script-html --extensions \".ts\" --out-dir /dist/script-html",
-    "watchify": "watchify ./dist/script-html/script-html.js -o dist/build/build.js",
-    "watchify2": "watchify ./dist/script-html/login-script-html.js -o dist/build/build2.js"
+    "build": "nodemon --exec babel src/scripts --extensions \".ts\" --out-dir /dist/scripts",
+    "watchify": "watchify ./dist/scripts/script-html.js -o dist/build/build.js",
+    "watchify2": "watchify ./dist/scripts/login-script-html.js -o dist/build/build2.js"
   },
   "keywords": [],
   "author": "",

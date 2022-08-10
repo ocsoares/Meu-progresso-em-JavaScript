@@ -8,6 +8,8 @@ declare global {
             user: Partial<Account> // Tipando com as Mesmas Propriedades que Contém no Usuário (nesse caso, informado na Entity Account) !! <<
                     // Partial porque, nesse caso, irei Retornar as Informações do Usuário SEM A Senha, e como ela foi Definida como OBRIGA-
                     // -TÓRIA, daria ERRO << !!  
+
+            jwt: string
         }
     }
 }
