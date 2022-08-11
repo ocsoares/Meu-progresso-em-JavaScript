@@ -80,15 +80,11 @@ htmlPageRoute.get('/email', (req: Request, res: Response) => {
 htmlPageRoute.get('/cep', runAxios(), (req: Request, res: Response) => {
 })
 
-htmlPageRoute.get('/token', (req: Request, res: Response) => {
-    console.log('JWT:', req.jwt); // Por algum motivo, FORA do HTMLAccountController (login) ESTÁ dando undefined !! <<
-    if(req.session.login){
-        res.json({Token: `Seu token é: ${req.jwt}`});
-    }
+    // Tive que usar um Middleware porque com req.jwt na ROTA estava dando Undefined !!! <<<
+htmlPageRoute.get('/token', new HTMLAccountController().generateJWT, (req: Request, res: Response) => {
+})
 
-    else{
-        res.redirect('/login');
-    }
+htmlPageRoute.get('/verifytoken/:JWTObject', new HTMLAccountController().verifyJWT, (req: Request, res: Response) => {
 })
 
 export default htmlPageRoute;

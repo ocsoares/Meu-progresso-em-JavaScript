@@ -117,14 +117,73 @@ export class HTMLAccountController {
 
         req.session.login = finalLogin
 
-        const JWT = jwt.sign({id: searchEmail.id}, process.env.JWT_HASH ?? '', {
-            expiresIn: '12h'
-        })
-
-        req.jwt = JWT;
-        console.log('Seu JWT é:', req.jwt)
-
         res.sendFile(loggedHTML);
+
+        next();
+    }
+
+        // Para validar o JWT no Site (jwt.io) precisa PRIMEIRO colocar Secret Key e DEPOIS o JWT para ver se está Realmente VERIFICADO !! <<
+    async generateJWT(req: Request, res: Response, next: NextFunction){
+        if(req.session.login){
+            console.log(req.session.login.id)
+
+            const JWT = jwt.sign({
+                id: req.session.login.id,
+                username: req.session.login.username,
+                email: req.session.login.email
+            }, process.env.JWT_HASH ?? '', {
+                expiresIn: '12h'
+            })
+
+            req.jwt = JWT;
+            console.log('testando...', req.jwt);
+
+            res.json({message: `Seu token é: ${req.jwt}`});
+        }
+
+        else{
+            res.redirect('/login');
+        }
+
+        next();
+    }
+
+    async verifyJWT(req: Request, res: Response, next: NextFunction){
+        if(req.session.login){
+            const { JWTObject } = req.params
+
+            const JWT = JWTObject.split(' ')[0]
+            interface JwtPayload{
+                id: any
+                username: string
+                email: string
+                iat: number
+                exp: number
+            }
+
+            try{
+                const verifyJWT = jwt.verify(JWT, process.env.JWT_HASH ?? '') as JwtPayload;
+
+                if(verifyJWT){
+                    return res.json({
+                        message: 'Token válido !',
+                        token: JWT,
+                        id: verifyJWT.id,
+                        username: verifyJWT.username,
+                        email: verifyJWT.email,
+                        iat: verifyJWT.iat,
+                        exp: verifyJWT.exp
+                    });
+                }
+            }
+            catch(error){
+                res.json({message: 'Token inválido ou expirado !'});
+            }
+                
+        }
+        else{
+            res.redirect('/login');
+        }
 
         next();
     }

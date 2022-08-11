@@ -111,6 +111,34 @@ const blockEnterConfirmPassword = () => getConfirmationPassword.addEventListener
     }
 })
 
+const teste = () => getCEP.addEventListener('keyup', anykey => {
+    let CEPLenght = getCEP.value.length
+
+    if (CEPLenght === 9) {
+        console.log('Chegou.');
+        // const getCEPValue = getCEP.value
+        // console.log(getCEPValue);
+
+        // const url = `https://viacep.com.br/ws/${getCEPValue}/json`;
+        // console.log(url)
+
+        // axios.get(url)
+        //     .then(res => {
+        //         const { ...getAllData } = res.data // Pegando TUDO do res.data nessa ...Variável <<<
+        //         console.log('Testando do axios:', getAllData);
+
+        //         const checkErrorAPI = getAllData.hasOwnProperty('erro') // NESSE CASO, se o CEP for Inválido, retorna um Objeto com Erro, então essa Função Verifica se TEM essa Propriedade !! <<
+
+        //         const { bairro, cep, ddd } = getAllData
+
+        //         if (checkErrorAPI) return stringElement.innerHTML = '<h3>Dados incorretos !</h3>' // ACHO que NÃO precisa disso, por vou Manipular o HTML !! <<  
+
+        //         console.log('Retorno SEM Objeto:', bairro, cep, ddd);
+        //     })
+        //     .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
+    }
+})
+
         // Depois de verificiar TUDO, tentar fazer um Esquema de SÓ enviar quando TUDO estiver Certo(Verde) com uma Condição, tipo, isValid = true !! <<
 const checkInputs = () => {
 
@@ -179,6 +207,7 @@ const checkInputs = () => {
     getCEP.addEventListener('keypress', anykey => {
 
         backspaceCEP();
+        // teste();
 
         let CEPValue = getCEP.value
         let CEPLenght = getCEP.value.length
@@ -209,6 +238,25 @@ const checkInputs = () => {
         }
         else{
             setErrorHTML(getCEP, 'CEP inválido !');
+        }
+
+            // DAR UM JEITO de arrumar isso e colocar o Axios !! <<
+            //  OBS: Quando aperta muitas teclas, o Código dentro do IF repete MUITAS VEZES, o que pode Bloquear a API Consultada !!! <<<
+        if(CEPLenght === 8 || CEPLenght === 9){
+            getCEP.addEventListener('keyup', anykey => {
+                let CEPLenghtInside = getCEP.value.length
+                if(CEPLenghtInside === 9){
+                    if(keyValue.match(patterNumbers)){
+                        console.log('fodase...')
+                        if(CEPLenghtInside > 9){
+                            console.log('kkk')
+                        }
+                    }
+                }
+                else{}
+                
+                
+            })
         }
     })
 
