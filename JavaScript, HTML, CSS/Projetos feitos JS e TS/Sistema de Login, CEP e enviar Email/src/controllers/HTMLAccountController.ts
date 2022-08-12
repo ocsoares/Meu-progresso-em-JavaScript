@@ -167,7 +167,6 @@ export class HTMLAccountController {
                 if(verifyJWT){
                     return res.json({
                         message: 'Token válido !',
-                        token: JWT,
                         id: verifyJWT.id,
                         username: verifyJWT.username,
                         email: verifyJWT.email,

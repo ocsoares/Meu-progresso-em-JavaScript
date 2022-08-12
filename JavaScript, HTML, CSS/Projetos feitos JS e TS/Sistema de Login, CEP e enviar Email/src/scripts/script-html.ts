@@ -111,32 +111,14 @@ const blockEnterConfirmPassword = () => getConfirmationPassword.addEventListener
     }
 })
 
-const teste = () => getCEP.addEventListener('keyup', anykey => {
-    let CEPLenght = getCEP.value.length
+const blockSubmit = () => getForm.addEventListener('submit', anykey => {
+    anykey.preventDefault();
+})
 
-    if (CEPLenght === 9) {
-        console.log('Chegou.');
-        // const getCEPValue = getCEP.value
-        // console.log(getCEPValue);
-
-        // const url = `https://viacep.com.br/ws/${getCEPValue}/json`;
-        // console.log(url)
-
-        // axios.get(url)
-        //     .then(res => {
-        //         const { ...getAllData } = res.data // Pegando TUDO do res.data nessa ...Variável <<<
-        //         console.log('Testando do axios:', getAllData);
-
-        //         const checkErrorAPI = getAllData.hasOwnProperty('erro') // NESSE CASO, se o CEP for Inválido, retorna um Objeto com Erro, então essa Função Verifica se TEM essa Propriedade !! <<
-
-        //         const { bairro, cep, ddd } = getAllData
-
-        //         if (checkErrorAPI) return stringElement.innerHTML = '<h3>Dados incorretos !</h3>' // ACHO que NÃO precisa disso, por vou Manipular o HTML !! <<  
-
-        //         console.log('Retorno SEM Objeto:', bairro, cep, ddd);
-        //     })
-        //     .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
-    }
+const blockClick = () => sendInputButton.addEventListener('click', anykey => {
+    console.log('CLICADO.');
+    anykey.preventDefault();
+    anykey.stopPropagation();
 })
 
         // Depois de verificiar TUDO, tentar fazer um Esquema de SÓ enviar quando TUDO estiver Certo(Verde) com uma Condição, tipo, isValid = true !! <<
@@ -211,6 +193,7 @@ const checkInputs = () => {
 
         let CEPValue = getCEP.value
         let CEPLenght = getCEP.value.length
+        console.log('LENGTH:', CEPLenght);
 
         const keyValue = anykey.key;
 
@@ -233,30 +216,11 @@ const checkInputs = () => {
             getCEP.value += '-'
         }
 
-        if(CEPLenght === 8 || CEPLenght === 9){
-            setSuccessHTML(getCEP);
-        }
-        else{
+        if(CEPLenght < 8 ){
+            if(anykey.key === 'Enter'){
+                anykey.preventDefault();
+            }
             setErrorHTML(getCEP, 'CEP inválido !');
-        }
-
-            // DAR UM JEITO de arrumar isso e colocar o Axios !! <<
-            //  OBS: Quando aperta muitas teclas, o Código dentro do IF repete MUITAS VEZES, o que pode Bloquear a API Consultada !!! <<<
-        if(CEPLenght === 8 || CEPLenght === 9){
-            getCEP.addEventListener('keyup', anykey => {
-                let CEPLenghtInside = getCEP.value.length
-                if(CEPLenghtInside === 9){
-                    if(keyValue.match(patterNumbers)){
-                        console.log('fodase...')
-                        if(CEPLenghtInside > 9){
-                            console.log('kkk')
-                        }
-                    }
-                }
-                else{}
-                
-                
-            })
         }
     })
 
@@ -299,8 +263,55 @@ const checkInputs = () => {
             else{
                 setErrorHTML(getConfirmationPassword,'As senhas não coincidem !');
             }
-    })
+    })    
 }
+
+    //  Fiz isso porque o keypress a PRIMEIRA POSIÇÃO DO .value É null, e isso dava erro na API de CEP !! <<  
+getCEP.addEventListener('keyup', anykey => { // QUANDO APERTA ENTER DEIXA VERDE !!!!
+    let CEPLenght = getCEP.value.length;
+    const patterNumbers = /[0-9]/;
+
+    console.log('VALUE:', getCEP.value);
+
+    if(CEPLenght === 9){ 
+        const getCEPValue = getCEP.value
+        console.log('VALUE:', getCEPValue);
+        console.log('LENGHT:', CEPLenght);
+
+        const url = `https://viacep.com.br/ws/${getCEPValue}/json`;
+        console.log(url)
+
+        const patterNumbers = /[0-9]/; // APENAS Números !! <<
+
+            axios.get(url)
+                .then(res => {
+                    const { ...getAllData } = res.data // Pegando TUDO do res.data nessa ...Variável <<<
+                    console.log('Testando do axios:', getAllData);
+    
+                    const checkErrorAPI = getAllData.hasOwnProperty('erro') // NESSE CASO, se o CEP for Inválido, retorna um Objeto com Erro, então essa Função Verifica se TEM essa Propriedade !! <<
+
+                    if(checkErrorAPI){
+                        getCEP.addEventListener('keypress', anykey => {
+                            if(anykey.key === 'Enter'){
+                                anykey.preventDefault();
+                            }
+                        })
+                        return setErrorHTML(getCEP, 'Esse CEP não existe !');
+                    }
+    
+                    else{
+                        setSuccessHTML(getCEP);
+                    }
+    
+                    const { bairro, cep, ddd } = getAllData
+    
+                    console.log('Retorno SEM Objeto:', bairro, cep, ddd);
+                })
+                .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
+        
+        }
+    
+})
 
     checkInputs();
 
@@ -326,16 +337,7 @@ disablePasteAndDrop(getConfirmationPassword);
         // Isso aqui faz alguma coisa Quando TODOS as Classes estiverem em uma Condição especificada, MAS por algum Motivo NÃO DEU CERTO !!
         // O getAllFormInput Funciona, como pode ver no console.log, mas o Resto NÃO !! <<
 
-    // const getAllFormInput: any = getForm.querySelectorAll('.form-input');    
-    // console.log('Testando getall:', getAllFormInput);
-
-    // const checkForm = [...getAllFormInput].every((formInput) => {
-    //     if(formInput.className === 'form-input success'){
-    //         return true;
-    //     }
-    // })
-
-    // console.log('Teste checkForm:', checkForm);
+    
 
     // if(checkForm){
     //     console.log('FODASE');
@@ -403,26 +405,22 @@ getCPF.addEventListener('keypress', anykey => {
     }
 })
 
-    // Axios
-const runAxios = () => { // DEPOIS ATIVAR e USAR isso <<<
-    const getCEPValue = getCEP.value
-    console.log(getCEPValue);
+    // Checa de está tudo VERDE, se tiver, LIBERA o ENTER !! <<
+    //  OBS: NÃO CONSEGUI Bloquear o Botão, Pesquisar depois ! <
+getForm.addEventListener('keypress', anykey => {
 
-    const url = `https://viacep.com.br/ws/${getCEPValue}/json`;
-    console.log(url)
+    let getAllFormInput: any = getForm.querySelectorAll('.form-input');    
+// console.log('Testando getall:', getAllFormInput);
 
-    axios.get(url)
-        .then(res => {
-            const { ...getAllData } = res.data // Pegando TUDO do res.data nessa ...Variável <<<
-            console.log('Testando do axios:', getAllData);   
-            
-            const checkErrorAPI = getAllData.hasOwnProperty('erro') // NESSE CASO, se o CEP for Inválido, retorna um Objeto com Erro, então essa Função Verifica se TEM essa Propriedade !! <<
+let checkForm = [...getAllFormInput].every((formInput)  => {
+    if(formInput.className === 'form-input success'){
+        return true;
+    }
+})  
 
-            const { bairro, cep, ddd } = getAllData
-            
-            if(checkErrorAPI) return stringElement.innerHTML = '<h3>Dados incorretos !</h3>' // ACHO que NÃO precisa disso, por vou Manipular o HTML !! <<  
-                        
-            console.log('Retorno SEM Objeto:', bairro, cep, ddd);
-        })
-        .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
-}
+    if(!checkForm){
+        if(anykey.key === 'Enter'){
+            anykey.preventDefault();   
+        }
+    }
+})
