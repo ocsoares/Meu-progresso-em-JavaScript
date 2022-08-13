@@ -6,9 +6,9 @@ import { AccountRepository } from "../repositories/accountRepository";
 import { CPFRepository } from "../repositories/CPFRepository";
 import path from "path";
 import jwt from 'jsonwebtoken'
+import { sendNodemailer } from "../scripts/nodemailer-script";
 
-const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
-const loginHTML = path.join(__dirname, '/src/html/login.html');
+const __dirname = path.resolve()
 const loggedHTML = path.join(__dirname, '/src/html/loginSuccessufull.html');
 const loginErrorHTML = path.join(__dirname, '/src/html/loginError.html');
 
@@ -16,13 +16,9 @@ const loginErrorHTML = path.join(__dirname, '/src/html/loginError.html');
 // -gando as Configurações do meu express.d.ts Porque Estava com o Request/Response SEM SER O DO Express !! <<<<
 
 // Procurar sobre aquele flash (mensagem) para Validar se o CEP existe USANDO a API !! <<<<<<<<<<<<<<
-
-// Checar se o CEP existe com A API no Registro aqui também !! <<
-
-// Fazer uma rota /token depois e mostrar na Tela o JWT do Usuário logado !! <<<
-// Depois do Acima, fazer uma Rota que CHECA o JWT e Retorna algo (fazer esse algo...) !! <<<
 export class HTMLAccountController {
     async createAccountHTML(req: Request, res: Response, next: NextFunction){
+        sendNodemailer();
         const reqBody = req.body as any
 
         const { username, email, cpf, cep, password, passwordConfirmation } = reqBody // O NOME dessas Variáveis são definidas em name="..." no HTML !! <<< 
@@ -80,28 +76,19 @@ export class HTMLAccountController {
 
         await CPFRepository.save(saveNameAndCPFHTML);
 
-        console.log(reqBody);
-        console.log('Testando desestruturado:', username, cpf, email, cpf, cep, password, passwordConfirmation);
-
-        next(); // Colocando Next porque esse Código vai atuar como um Middleware, e depois PASSA (next()) para res.sendFile(loggedHTML) !! <<<
-
-        // RETORNAR A PÁGINA NA ROTA COM res.sendFile.... AQUI N DÁ !! <<
+        next();
     }
 
-    async loginAccountHTML(req: Request, res: Response, next: NextFunction){ // ACABAR ISSO, REDIRECIONAR, FAZER SESSION, API CEP e ENVIAR EMAIL !! <<
+    async loginAccountHTML(req: Request, res: Response, next: NextFunction){
         const reqBody = req.body as any
 
         const { email, password } = reqBody
-
-        // if(!email || !password) throw new BadRequestError('Inválido !');
 
         if(!email || !password){
             return res.sendFile(loginErrorHTML);
         }
 
         const searchEmail = await AccountRepository.findOneBy({email}) // Procura por TODAS as Informações no Banco de Dados para o EMAIL ESPECIFICADO !! <<
-
-        // if(!searchEmail) throw new BadRequestError('Email vazio !');
 
         if(!searchEmail){
             return res.sendFile(loginErrorHTML);
@@ -125,8 +112,7 @@ export class HTMLAccountController {
         // Para validar o JWT no Site (jwt.io) precisa PRIMEIRO colocar Secret Key e DEPOIS o JWT para ver se está Realmente VERIFICADO !! <<
     async generateJWT(req: Request, res: Response, next: NextFunction){
         if(req.session.login){
-            console.log(req.session.login.id)
-
+            
             const JWT = jwt.sign({
                 id: req.session.login.id,
                 username: req.session.login.username,
@@ -136,7 +122,6 @@ export class HTMLAccountController {
             })
 
             req.jwt = JWT;
-            console.log('testando...', req.jwt);
 
             res.json({message: `Seu token é: ${req.jwt}`});
         }

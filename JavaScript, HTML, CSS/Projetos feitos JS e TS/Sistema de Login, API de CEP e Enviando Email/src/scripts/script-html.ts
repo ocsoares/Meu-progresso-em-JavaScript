@@ -3,18 +3,6 @@ import axios from "axios";
 // IMPORTANTE: Coloquei o <script> no FINAL do Arquivo .html porque no Topo NÃO estava Lendo !! << 
 //  OBS: OU usar no Topo e colocar defer no final do script, porque ai Espera Carregar o HTML Primeiro << !!
 
-// IMPORTANTE: Coloquei type="button" no Botão de Enviar (html) APENAS para NÃO atualizar a Página Automaticamente, DEPOIS que Arrumar to-
-// -do o Script, voltar para "submit" !! << 
-
-// Por algum motivo, quando NÃO encontra o CEP retorna ERRO no Console !! <<
-
-// Para acessar as Promise {<pending>}, USAR o await ou o .then(...)  !! <<
-
-// IMPORTANTE: Depois que Terminar, arrumar um jeito de Separar algumas Funções em Módulos !! <<
-
-// >>>> IMPORTANTE: Ainda falta Verificar para APENAS ENVIAR o Formulário se TUDO estiver VERDE (Válido), fazer isso por ÚLTIMO !! <<<<
-
-const sendInputButton = document.getElementById('send') as HTMLInputElement; // COLOCAR isso para Permitir o uso de .value e afins (InputElement pq é um Input, óbvio...) !! <<
 const getUsername = document.getElementById('username') as HTMLInputElement;
 const getEmail = document.getElementById('email') as HTMLInputElement;
 const getCPF = document.getElementById('cpf') as HTMLInputElement;
@@ -22,14 +10,6 @@ const getCEP = document.getElementById('cep') as HTMLInputElement;
 const getPassword = document.getElementById('password') as HTMLInputElement;
 const getConfirmationPassword = document.getElementById('password-confirmation') as HTMLInputElement;
 const getForm = document.getElementById('form') as HTMLInputElement;
-
-// FAZER O BOTÃO de Send DESAPARECER quando os Input's NÃO estiverem TOTALMENTE Corretos !! <<<<
-
-const stringElement = document.getElementById('register') as HTMLElement;
-
-const blockSubmitAction = () => sendInputButton.addEventListener('click', clicked => {
-    clicked.preventDefault();
-})
 
 const setSuccessHTML = (input: any, message?: string) => {
     const formInput = input.parentElement // Pega a Classe PAI (HTML) do Input Especificado !! <<
@@ -47,14 +27,6 @@ const setErrorHTML = (input: any, message: string) => {
 
     formInput.className = 'form-input error'
 }
-
-    // ESSE AQUI Por algum motivo, NÃO Funcionou !! <<  <<<
-// Verifica se o Email é Válido com esse Regex !! <<
-    //  OBS: Se for VÁLIDO, Retorna TRUE !! <<
-    // const regexEmail = (email: any) => {
-    //     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    //       email);
-    //   }
 
 const backspaceGetUsername = () => getUsername.addEventListener('keyup', anykey => {
     let usernameLenght = getUsername.value.length
@@ -111,17 +83,15 @@ const blockEnterConfirmPassword = () => getConfirmationPassword.addEventListener
     }
 })
 
-const blockSubmit = () => getForm.addEventListener('submit', anykey => {
-    anykey.preventDefault();
+const backspaceGetCPF = () => getCPF.addEventListener('keyup', anykey => {
+    const keyValue = anykey.key
+    let lengthCPF = getCPF.value.length;
+
+    if(lengthCPF >= 0 && keyValue === 'Backspace'){
+        setErrorHTML(getCPF, 'CPF inválido !');
+    }
 })
 
-const blockClick = () => sendInputButton.addEventListener('click', anykey => {
-    console.log('CLICADO.');
-    anykey.preventDefault();
-    anykey.stopPropagation();
-})
-
-        // Depois de verificiar TUDO, tentar fazer um Esquema de SÓ enviar quando TUDO estiver Certo(Verde) com uma Condição, tipo, isValid = true !! <<
 const checkInputs = () => {
 
     backspaceGetUsername();
@@ -163,8 +133,6 @@ const checkInputs = () => {
         let emailLenght = getEmail.value.length
 
         const keyValue = anykey.key
-
-        console.log('ANTES:', emailLenght);
         
         if(keyValue === 'Enter'){
             emailLenght -= 1;
@@ -186,14 +154,49 @@ const checkInputs = () => {
         }
     })
 
+    getCPF.addEventListener('keypress', anykey => {
+    
+        let lengthCPF = getCPF.value.length + 1
+    
+        const keyValue = anykey.key as string | number;
+    
+        const patternLetters = /[0-9]/;
+    
+        if(keyValue === 'Enter'){}
+    
+        if(keyValue === 'Enter'){
+            lengthCPF -= 1;
+        }
+        
+        else if(!keyValue.toString().match(patternLetters)){
+            anykey.preventDefault();
+            lengthCPF -= 1;
+        }
+        
+        backspaceGetCPF();
+    
+        if(lengthCPF === 4 || lengthCPF === 8){
+             getCPF.value += '.'
+            }
+    
+        else if(lengthCPF === 12){
+            getCPF.value += '-'
+        }
+    
+        else if(lengthCPF === 14 || lengthCPF === 15){
+            setSuccessHTML(getCPF);
+        }
+    
+        else{
+            setErrorHTML(getCPF, 'CPF inválido !');
+        }
+    })
+
     getCEP.addEventListener('keypress', anykey => {
 
         backspaceCEP();
-        // teste();
 
-        let CEPValue = getCEP.value
         let CEPLenght = getCEP.value.length
-        console.log('LENGTH:', CEPLenght);
 
         const keyValue = anykey.key;
 
@@ -211,7 +214,6 @@ const checkInputs = () => {
                                                 // CPF +1 UMA VEZ, então com esse -1 ele também DIMINUI UMA VEZ !! <<  
         }
 
-        // Por algum motivo, o CEPValue NÃO funcionou !! <<
         if(CEPLenght === 5) {
             getCEP.value += '-'
         }
@@ -230,9 +232,6 @@ const checkInputs = () => {
 
         let passwordLenght = getPassword.value.length;
 
-        console.log('Value:', getPassword.value);
-        console.log('Lenght:', passwordLenght)
-
         if(passwordLenght < 6){
             setErrorHTML(getPassword, 'Senha inválida !');
         }
@@ -249,9 +248,6 @@ const checkInputs = () => {
             let finalPassword = getPassword.value
             let finalConfirmPassword = getConfirmationPassword.value
 
-            console.log('Final pass:', finalPassword);
-            console.log('Final confirmPass:', finalConfirmPassword);
-
             if(finalConfirmPassword.length < 7){
                 setErrorHTML(getConfirmationPassword, 'Senha inválida !');
             }
@@ -267,29 +263,19 @@ const checkInputs = () => {
 }
 
     //  Fiz isso porque o keypress a PRIMEIRA POSIÇÃO DO .value É null, e isso dava erro na API de CEP !! <<  
-getCEP.addEventListener('keyup', anykey => { // QUANDO APERTA ENTER DEIXA VERDE !!!!
+getCEP.addEventListener('keyup', anykey => {
     let CEPLenght = getCEP.value.length;
-    const patterNumbers = /[0-9]/;
-
-    console.log('VALUE:', getCEP.value);
-
+    
     if(CEPLenght === 9){ 
         const getCEPValue = getCEP.value
-        console.log('VALUE:', getCEPValue);
-        console.log('LENGHT:', CEPLenght);
 
         const url = `https://viacep.com.br/ws/${getCEPValue}/json`;
-        console.log(url)
-
-        const patterNumbers = /[0-9]/; // APENAS Números !! <<
 
             axios.get(url)
                 .then(res => {
-                    const { ...getAllData } = res.data // Pegando TUDO do res.data nessa ...Variável <<<
-                    console.log('Testando do axios:', getAllData);
+                    const { ...getAllData } = res.data
     
-                    const checkErrorAPI = getAllData.hasOwnProperty('erro') // NESSE CASO, se o CEP for Inválido, retorna um Objeto com Erro, então essa Função Verifica se TEM essa Propriedade !! <<
-
+                    const checkErrorAPI = getAllData.hasOwnProperty('erro');
                     if(checkErrorAPI){
                         getCEP.addEventListener('keypress', anykey => {
                             if(anykey.key === 'Enter'){
@@ -302,15 +288,9 @@ getCEP.addEventListener('keyup', anykey => { // QUANDO APERTA ENTER DEIXA VERDE 
                     else{
                         setSuccessHTML(getCEP);
                     }
-    
-                    const { bairro, cep, ddd } = getAllData
-    
-                    console.log('Retorno SEM Objeto:', bairro, cep, ddd);
                 })
                 .catch(error => console.log(`Erro na aplicaçãooo: ${error}`));
-        
         }
-    
 })
 
     checkInputs();
@@ -334,83 +314,11 @@ disablePasteAndDrop(getCEP);
 disablePasteAndDrop(getPassword);
 disablePasteAndDrop(getConfirmationPassword);
 
-        // Isso aqui faz alguma coisa Quando TODOS as Classes estiverem em uma Condição especificada, MAS por algum Motivo NÃO DEU CERTO !!
-        // O getAllFormInput Funciona, como pode ver no console.log, mas o Resto NÃO !! <<
-
-    
-
-    // if(checkForm){
-    //     console.log('FODASE');
-    // }
-
-    // getForm.addEventListener('keypress', teste => {
-    //     if(getEmail.classList.contains('form-input success')){
-    //         console.log('VÁLIDO !');
-    //     }
-    
-    //     else{
-    //         console.log('INVÁLIDO !');
-    //     }
-
-    // })
-
-    // Fiz outra Função porque na do CPF Principal estava OUTRO evento, que se fosse utilizado ESSE, bugaria TUDO !! <<
-const backspaceGetCPF = () => getCPF.addEventListener('keyup', anykey => {
-    const keyValue = anykey.key
-    let lengthCPF = getCPF.value.length;
-
-    if(lengthCPF >= 0 && keyValue === 'Backspace'){
-        setErrorHTML(getCPF, 'CPF inválido !');
-    }
-})
-
-    // Verificando CPF !! << 
-getCPF.addEventListener('keypress', anykey => {
-    
-    let lengthCPF = getCPF.value.length + 1
-
-    const keyValue = anykey.key as string | number;
-
-    // const patternLetters = '[a-zA-Z]';   <-- APENAS Letras !!!
-    
-    const patternLetters = /[0-9]/;
-
-    if(keyValue === 'Enter'){}
-
-    if(keyValue === 'Enter'){
-        lengthCPF -= 1;
-    }
-    
-    else if(!keyValue.toString().match(patternLetters)){
-        anykey.preventDefault();
-        lengthCPF -= 1;
-    }
-    
-    backspaceGetCPF();
-
-    if(lengthCPF === 4 || lengthCPF === 8){
-         getCPF.value += '.'
-        }
-
-    else if(lengthCPF === 12){
-        getCPF.value += '-'
-    }
-
-    else if(lengthCPF === 14 || lengthCPF === 15){
-        setSuccessHTML(getCPF);
-    }
-
-    else{
-        setErrorHTML(getCPF, 'CPF inválido !');
-    }
-})
-
     // Checa de está tudo VERDE, se tiver, LIBERA o ENTER !! <<
     //  OBS: NÃO CONSEGUI Bloquear o Botão, Pesquisar depois ! <
 getForm.addEventListener('keypress', anykey => {
 
     let getAllFormInput: any = getForm.querySelectorAll('.form-input');    
-// console.log('Testando getall:', getAllFormInput);
 
 let checkForm = [...getAllFormInput].every((formInput)  => {
     if(formInput.className === 'form-input success'){

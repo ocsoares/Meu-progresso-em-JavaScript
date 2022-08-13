@@ -1,17 +1,14 @@
-// IMPORTANTE: Por algum motivo NÃO estava encontrando o 'process' de .env, então Resolvi alterando em 'types' no tsconfig.json colo-
-// -cando "types": ["node"] !! <<
-
 import 'dotenv/config'
 import express from 'express';
 import { AppDataSource } from './database';
 import { errorMiddleware } from './middlewares/error.middleware';
 import checkStatusRoute from './routes/check-status.route';
-import crudRoute from './routes/crud.route';
 import htmlPageRoute from './routes/html-pages.route';
 import path from 'path';
 import cors from 'cors'
 
-// IMPORTANTE: >> Depois que TERMINAR TUDO, Tentar fazer Deploy !! << 
+// IMPORTANTE: Por algum motivo NÃO estava encontrando o 'process' de .env, então Resolvi alterando em 'types' no tsconfig.json colo-
+// -cando "types": ["node"] !! <<
 
 // IMPORTANTE: Para Compilar de .ts para .js Usando Babel usei o comando:
 // 1 - npm build - Está com nodemon para Atualizar a cada Modificação, e o Arquivo FINAL (.js) sairá em /dist/script-html !! <<<
@@ -27,16 +24,13 @@ import cors from 'cors'
 
 // Depois procurar sobre render e views (Nodejs) !! <<
 
-// IMPORTANTE: Pelo o que eu entendi, PODE usar o Controlador de CRUD na Rota HTML, desde que os INPUT's do HTML tenha o MESMO id/name Especi-
-// -ficados no Banco de Dados, e com ATENÇÃO as Verificações do HTML e do .ts !!!!! <<
-
 AppDataSource.initialize().then(() => {
     const server = express();
     
     const host = 'http://localhost';
     const port = 5000;
 
-    const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
+    const __dirname = path.resolve();
     
     server.use(cors());
     server.use(express.json());

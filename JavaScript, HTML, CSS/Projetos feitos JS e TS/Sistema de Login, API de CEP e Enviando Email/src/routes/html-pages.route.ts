@@ -1,12 +1,13 @@
-import { request, Request, response, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import path from "path";
 import session from 'express-session'
 import bodyParser from "body-parser";
 import { HTMLAccountController } from "../controllers/HTMLAccountController";
 import { runAxios } from "../scripts/axios-script";
+import { sendNodemailer } from "../scripts/nodemailer-script";
 
-const __dirname = path.resolve() // Entra na Pasta RAÍZ do projeto !!
-const registerHTML = path.join(__dirname, '/src/html/register.html'); // Caminho do Arquivo HTML usado !! << 
+const __dirname = path.resolve()
+const registerHTML = path.join(__dirname, '/src/html/register.html'); 
 const registerSuccessufullHTML = path.join(__dirname, '/src/html/registerSuccessufull.html'); 
 const loginHTML = path.join(__dirname, '/src/html/login.html');
 const loggedHTML = path.join(__dirname, '/src/html/loginSuccessufull.html');
@@ -15,9 +16,7 @@ const logoutHTML = path.join(__dirname, 'src/html/logout.html');
 
 const htmlPageRoute = Router();
 
-    // >>>> Pesquisar e Implementar JWT na Sessão/Cookie !!!! <<<
-
-htmlPageRoute.use(session({ // Permite CRIAR uma Sessão para um Usuário !! <<
+htmlPageRoute.use(session({
     secret: process.env.SESSION_SECRET as string, // Chave para Autenticar a session !! <<
     resave: true, // Coloquei assim para Evitar um Erro << 
     saveUninitialized: true // Coloquei assim para Evitar um Erro << 
@@ -32,12 +31,11 @@ htmlPageRoute.get('/', (req: Request, res: Response) => {
     res.sendFile(homeHTML);
 })
 
-htmlPageRoute.get('/register', (req: Request, res: Response) => { // ACHO que Está dando erro de CORS porque a API que estou usando (CEP) dá Er-
-    res.sendFile(registerHTML);                                   // -ro quando NÃO digita os 8 Números de um CEP, caso Digite 8 Números MAS de al-                                   
-                                                                  // -gum CEP que NÃO exista, a API RETORNA um Objeto escrito erro !! <<<
+htmlPageRoute.get('/register', (req: Request, res: Response) => {
+    res.sendFile(registerHTML);                                 
 })
 
-htmlPageRoute.post('/register', new HTMLAccountController().createAccountHTML as any, (req: Request, res: Response) => {
+htmlPageRoute.post('/register', new HTMLAccountController().createAccountHTML as any, sendNodemailer(), (req: Request, res: Response) => {
     res.sendFile(registerSuccessufullHTML);
 })
 
@@ -50,7 +48,7 @@ htmlPageRoute.get('/login', (req: Request, res: Response) => {
     }
 })
         // >> IMPORTANTE: Mesmo que NÃO utilize o req e o res, TEM que colocar SENÃO (ao menos no .post) DÁ ERRO !! <<
-htmlPageRoute.post('/login', new HTMLAccountController().loginAccountHTML as any, (req: Request, res: Response) => { // Usar POST para Login por Segurança (pesquisar sobre...) !! <<
+htmlPageRoute.post('/login', new HTMLAccountController().loginAccountHTML as any, (req: Request, res: Response) => {
 })
 
     // Realmente destrói a Sessão, MAS a Primeira vez nessa Rota dá o erro Internal Server Erro (mas Destrói), a partir da Segunda vai Normalmente !! <<
@@ -67,7 +65,6 @@ htmlPageRoute.get('/logout', (req: Request, res: Response) => {
 })
 
 htmlPageRoute.get('/email', (req: Request, res: Response) => {
-    console.log('Acima:', req.session.login);
     if(req.session.login){
         res.json({message: 'EXISTE !', session: req.session.login});
     }
